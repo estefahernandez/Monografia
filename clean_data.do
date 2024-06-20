@@ -10,6 +10,7 @@
 // Ruta
 
 global ruta "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioquia/Monografia de grado"
+global result "$ruta/Result"
 
 
 //### Importar datos
@@ -98,10 +99,15 @@ global ruta "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioqu
     append using "$ruta/Data_prepared/tmp_2021"
     append using "$ruta/Data_prepared/tmp_2022"
     append using "$ruta/Data_prepared/tmp_2023"
-    append using "$ruta/Data_prepared/tmp_2024"
+    *append using "$ruta/Data_prepared/tmp_2024"
 
     order YEAR, first
 
+    duplicates report LINEA
+    duplicates list LINEA
+
+    save "$ruta/Data_prepared/tmp_ventascolombia", replace
+    *export excel using "$result/tmp_ventascolombia.xlsx", firstrow(variables) replace
 
 /* Merge
     * Registro de Andemos de las ventas realizadas 2019-2020
@@ -151,7 +157,62 @@ global ruta "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioqu
     keep MARCA LINEA CILINDRAJE M_2019 M_2020 M_2021 M_2022 
 
     save "$ruta/Data_prepared/Ministerio_avaluo_2023", replace 
+    *export excel using "$result/avaluo_2023.xlsx", firstrow(variables) replace
 
+/*
     gen first_linea = word(LINEA, 1) // La primera palabra de la variable linea, es convertida en una string (Para identificar las lineas que se repiten)
     gen linea_base = regexm(LINEA, "LINEA BASE ESTANDAR") 
     bys first_linea: egen min_linea_base = min(linea_base)
+*/
+
+// Volver panel la base de datos del ministerio
+  
+    * Año 2019
+    preserve
+        keep MARCA  LINEA  M_2019
+        rename M_2019 AVALUO
+        gen YEAR = 2019 
+        save "$ruta/Data_prepared/m_tmp_2019", replace 
+    restore
+
+    * Año 2020
+    preserve
+        keep MARCA  LINEA  M_2020
+        rename M_2020 AVALUO
+        gen YEAR = 2020
+        save "$ruta/Data_prepared/m_tmp_2020", replace 
+    restore
+
+    * Año 2021
+    preserve
+        keep MARCA  LINEA  M_2021
+        rename M_2021 AVALUO
+        gen YEAR = 2021
+        save "$ruta/Data_prepared/m_tmp_2021", replace 
+    restore
+
+    * Año 2022
+    preserve
+        keep MARCA  LINEA  M_2022
+        rename M_2022 AVALUO
+        gen YEAR = 2022
+        save "$ruta/Data_prepared/m_tmp_2022", replace 
+    restore
+
+    use "$ruta/Data_prepared/m_tmp_2019", clear
+    append using "$ruta/Data_prepared/m_tmp_2020"
+    append using "$ruta/Data_prepared/m_tmp_2021"
+    append using "$ruta/Data_prepared/m_tmp_2022"
+
+    save "$ruta/Data_prepared/M_avaluo_2023", replace 
+
+    duplicates report MARCA LINEA 
+    duplicates drop MARCA LINEA, force
+    order YEAR, first
+
+    save "$ruta/Data_prepared/M_avaluo_2023", replace 
+
+// Merge entre ambas bases de datos
+
+    use "$ruta/Data_prepared/M_avaluo_2023", clear
+    merge 1:1 LINEA  using "$ruta/Data_prepared/tmp_ventascolombia"
