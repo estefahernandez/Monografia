@@ -103,8 +103,13 @@ global result "$ruta/Result"
 
     order YEAR, first
 
-    duplicates report LINEA
-    duplicates list LINEA
+    duplicates report LINEA YEAR
+    duplicates list LINEA YEAR
+
+    ds, has(type string) // Me dice cuales variables son string
+    foreach var in `r(varlist)' {
+        replace `var' = upper(`var')    
+    }
 
     save "$ruta/Data_prepared/tmp_ventascolombia", replace
     *export excel using "$result/tmp_ventascolombia.xlsx", firstrow(variables) replace
@@ -169,7 +174,7 @@ global result "$ruta/Result"
   
     * Año 2019
     preserve
-        keep MARCA  LINEA  M_2019
+        keep MARCA  LINEA  M_2019 CILINDRAJE
         rename M_2019 AVALUO
         gen YEAR = 2019 
         save "$ruta/Data_prepared/m_tmp_2019", replace 
@@ -177,7 +182,7 @@ global result "$ruta/Result"
 
     * Año 2020
     preserve
-        keep MARCA  LINEA  M_2020
+        keep MARCA  LINEA  M_2020 CILINDRAJE
         rename M_2020 AVALUO
         gen YEAR = 2020
         save "$ruta/Data_prepared/m_tmp_2020", replace 
@@ -185,7 +190,7 @@ global result "$ruta/Result"
 
     * Año 2021
     preserve
-        keep MARCA  LINEA  M_2021
+        keep MARCA  LINEA  M_2021 CILINDRAJE
         rename M_2021 AVALUO
         gen YEAR = 2021
         save "$ruta/Data_prepared/m_tmp_2021", replace 
@@ -193,7 +198,7 @@ global result "$ruta/Result"
 
     * Año 2022
     preserve
-        keep MARCA  LINEA  M_2022
+        keep MARCA  LINEA  M_2022 CILINDRAJE
         rename M_2022 AVALUO
         gen YEAR = 2022
         save "$ruta/Data_prepared/m_tmp_2022", replace 
@@ -204,15 +209,24 @@ global result "$ruta/Result"
     append using "$ruta/Data_prepared/m_tmp_2021"
     append using "$ruta/Data_prepared/m_tmp_2022"
 
-    save "$ruta/Data_prepared/M_avaluo_2023", replace 
+    ds, has(type string) // Me dice cuales variables son string
+    foreach var in `r(varlist)' {
+        replace `var' = upper(`var')    
+    }
 
-    duplicates report MARCA LINEA 
-    duplicates drop MARCA LINEA, force
+    duplicates report YEAR LINEA MARCA
+    duplicates drop YEAR LINEA MARCA, force
     order YEAR, first
 
     save "$ruta/Data_prepared/M_avaluo_2023", replace 
 
+
 // Merge entre ambas bases de datos
 
     use "$ruta/Data_prepared/M_avaluo_2023", clear
-    merge 1:1 LINEA  using "$ruta/Data_prepared/tmp_ventascolombia"
+    merge 1:1 YEAR LINEA MARCA using "$ruta/Data_prepared/tmp_ventascolombia"
+
+    keep if  _merge == 3 // Me quede con las observaciones que coincidian en ambas bases de datos
+    drop _merge
+
+    
