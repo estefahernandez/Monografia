@@ -75,8 +75,6 @@
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "VEHICULO"
 
                 save "$ruta/Data_prepared/01-06-Automoviles-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -146,8 +144,6 @@
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "CAMIONETA Y CAMPEROS"
 
                 save "$ruta/Data_prepared/02-06-Camionetas&Camperos-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -208,6 +204,7 @@
                     append using "$ruta/Data_prepared/03-03-Camionetas-Doble-Cabina-2024.dta"
                     append using "$ruta/Data_prepared/03-04-Camionetas-Doble-Cabina-2024.dta"
                     append using "$ruta/Data_prepared/03-05-Camionetas-Doble-Cabina-2024.dta"
+                
 
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
@@ -215,8 +212,6 @@
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "CAMIONETAS DOBLE CABINA"
 
                 save "$ruta/Data_prepared/03-06-Camionetas-Doble-Cabina-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -228,7 +223,7 @@
         rename (H I /*J*/ AG AH AI AJ AK) (MARCA LINEA /*CILINDRAJE*/ M_2019 M_2020 M_2021 M_2022 M_2023)
         compress
 
-        save "$ruta/Data_prepared/03-Electricos-2024.dta", replace 
+        save "$ruta/Data_prepared/04-Electricos-2024.dta", replace 
 
             * Año 2019
                 preserve
@@ -278,14 +273,13 @@
                     append using "$ruta/Data_prepared/04-04-Electricos-2024.dta"
                     append using "$ruta/Data_prepared/04-05-Electricos-2024.dta"
 
+
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
                     replace `var' = upper(`var')    
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "ELECTRICO"
                 //destring CILINDRAJE, i(KW) replace // La variable tenia 300 kw como ejemplo y eliminamos kw para que la variable fuera solo numerica
 
@@ -348,14 +342,13 @@
                     append using "$ruta/Data_prepared/05-04-Motocicletas-2024.dta"
                     append using "$ruta/Data_prepared/05-05-Motocicletas-2024.dta"
 
+
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
                     replace `var' = upper(`var')    
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "MOTOCICLETA"
 
                 save "$ruta/Data_prepared/05-06-Motocicletas-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -417,14 +410,13 @@
                     append using "$ruta/Data_prepared/06-04-Pasajeros-2024.dta"
                     append using "$ruta/Data_prepared/06-05-Pasajeros-2024.dta"
 
+
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
                     replace `var' = upper(`var')    
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "PASAJEROS"
 
                 save "$ruta/Data_prepared/06-06-Pasajeros-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -486,14 +478,13 @@
                     append using "$ruta/Data_prepared/07-04-Carga-2024.dta"
                     append using "$ruta/Data_prepared/07-05-Carga-2024.dta"
 
+
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
                     replace `var' = upper(`var')    
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "CARGA"
 
                 save "$ruta/Data_prepared/07-06-Carga-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -556,14 +547,13 @@
                     append using "$ruta/Data_prepared/08-04-Ambulacion-2024.dta"
                     append using "$ruta/Data_prepared/08-05-Ambulacion-2024.dta"
 
+
                 ds, has(type string) // Me dice cuales variables son string
                 foreach var in `r(varlist)' { 
                     replace `var' = upper(`var')    
                 }  // Convierte todas las variables string en mayuscula
 
                 order AÑO, first
-                duplicates report LINEA MARCA
-                duplicates drop LINEA MARCA, force
                 gen CLASE = "AMBULANCIA"
 
                 save "$ruta/Data_prepared/08-06-Ambulacion-2024.dta", replace  // Se guarda la base para el merge simple o inicial
@@ -632,14 +622,11 @@
                     }  // Convierte todas las variables string en mayuscula
 
                     order AÑO, first
-                    duplicates report LINEA MARCA
-                    duplicates drop LINEA MARCA, force
                     gen CLASE = "HIBRIDO"
                 
-
                     save "$ruta/Data_prepared/09-06-Hibridos-2024.dta", replace  // Se guarda la base para el merge simple o inicial
 
-**# Append datos (Incluyendo las 9 clases del ministerio)
+**# Append datos (Incluyendo las 9 clases del ministerio) Completra
 
     use "$ruta/Data_prepared/01-06-Automoviles-2024.dta", clear
         append using "$ruta/Data_prepared/02-06-Camionetas&Camperos-2024.dta"
@@ -650,7 +637,9 @@
         append using "$ruta/Data_prepared/07-06-Carga-2024.dta"
         append using "$ruta/Data_prepared/08-06-Ambulacion-2024.dta"
         append using "$ruta/Data_prepared/09-06-Hibridos-2024.dta"
-    
-    save "$ruta/Data_prepared/01-01-AvaluoColombia-2024.dta", replace
 
+        sort AÑO
+        order AÑO, first
+
+    save "$ruta/Data_prepared/01-01-AvaluoColombia-2024.dta", replace
 
