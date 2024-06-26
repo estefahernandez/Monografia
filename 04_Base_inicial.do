@@ -1,13 +1,46 @@
 
 *-------------------------------------------------------------------
 *
-*   Avalúo del ministerio para los vehículos 2024
-*     
-*   Limpieza y organización de datos
+*   Base gravable
+*
+*   Se realiza nuevamente un merge      
+*   Se agrupan los datos por marca y linea para calcular el maximo, minimo y promedio
 *
 *-------------------------------------------------------------------
 
 
 
+**# Organizar ventas Antioquia
 
-gen 	first_linea = word(LINEA, 1)
+    use "$ruta/Data_prepared/02-Vehiculos-2019-2023.dta", clear
+
+        gen 	FIRST_LINEA = word(LINEA, 1) // Generar una nueva variable en la que solo se encuentra la primera palabra de LINEA
+
+    save "$ruta/Data_prepared/03-Vehiculos-2019-2023.dta", replace 
+
+
+**# Organizar Avaluo ministerio 2024
+
+    use "$ruta/Data_prepared/01-01-AvaluoColombia-2024.dta", clear
+
+        gen 	FIRST_LINEA = word(LINEA, 1)   
+        //gen 	linea_base = regexm(LINEA, "LINEA BASE ESTANDAR")  
+
+        ds, has(type string) // Me dice cuales variables son string
+        foreach var in `r(varlist)' { 
+            replace `var' = upper(`var')    
+        }  // Convierte todas las variables string en mayuscula
+
+        bys MARCA FIRST_LINEA: egen mean_linea = mean(AVALUO) //Calcular la media
+        
+
+
+    save "$ruta/Data_prepared/01-03-AvaluoColombia-2024.dta", replace
+
+**# Segundo Merge
+
+    use "$ruta/Data_prepared/01-03-AvaluoColombia-2024.dta", clear
+
+
+    gen 	linea_base = regexm(LINEA, "LINEA BASE ESTANDAR") 
+    bys 	first_linea: egen min_linea_base = min(linea_base)
