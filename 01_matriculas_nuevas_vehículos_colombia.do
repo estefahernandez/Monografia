@@ -54,4 +54,6 @@
         replace `var' = upper(`var')    
     }  // Convierte todas las variables string en mayuscula
 
+    sort AÑO // Ordenar de menos a mayor
+
     save "$ruta/Data_prepared/02-Vehiculos-2019-2023.dta", replace // limpieza de datos para el merges inicial
