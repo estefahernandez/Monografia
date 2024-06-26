@@ -31,8 +31,9 @@
             replace `var' = upper(`var')    
         }  // Convierte todas las variables string en mayuscula
 
-        bys MARCA FIRST_LINEA: egen mean_linea = mean(AVALUO) //Calcular la media
-        
+        bys MARCA FIRST_LINEA: egen MEAN_AVALUO = mean(AVALUO) //Calcular la media
+        bys MARCA FIRST_LINEA: egen MIN_AVALUO = min(AVALUO)
+        bys MARCA FIRST_LINEA: egen MAX_AVALUO = max(AVALUO)
 
 
     save "$ruta/Data_prepared/01-03-AvaluoColombia-2024.dta", replace
