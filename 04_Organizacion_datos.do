@@ -3,7 +3,7 @@
 *
 *   Base gravable
 *
-*   Se realiza nuevamente un merge      
+*   Se organizando los datos       
 *   Se agrupan los datos por marca y linea para calcular el maximo, minimo y promedio
 *
 *-------------------------------------------------------------------
@@ -19,7 +19,7 @@
     save "$ruta/Data_prepared/03-Vehiculos-2019-2023.dta", replace 
 
 
-**# Organizar Avaluo ministerio 2024
+**# Organizar Avaluo ministerio 2024 con minimo, maximo y media
 
     use "$ruta/Data_prepared/01-01-AvaluoColombia-2024.dta", clear
 
@@ -34,6 +34,7 @@
         bys MARCA FIRST_LINEA: egen MEAN_AVALUO = mean(AVALUO) //Calcular la media
         bys MARCA FIRST_LINEA: egen MIN_AVALUO = min(AVALUO)
         bys MARCA FIRST_LINEA: egen MAX_AVALUO = max(AVALUO)
+        gen 	linea_base = regexm(LINEA, "LINEA BASE ESTANDAR") 
 
 
     save "$ruta/Data_prepared/01-03-AvaluoColombia-2024.dta", replace
