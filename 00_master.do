@@ -9,5 +9,6 @@
 
 // Ruta
 
-global ruta "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioquia/Monografia de grado"
+global ruta "/Users/estefania/Documents/Monografia" 
 global result "$ruta/Result"
+global datacl "$ruta/Data_clean"
