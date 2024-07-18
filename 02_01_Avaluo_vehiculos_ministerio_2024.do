@@ -2,7 +2,8 @@
 *
 *   Avalúo del ministerio para los vehículos 2024
 *     
-*   1. Se importa la base 01-01-AvaluoColombia-2024.dta del do-file 02_Avaluo_vehiculos_ministerio_2024.do para realizar algu
+*   1. Se importa la base 01-01-AvaluoColombia-2024.dta del do-file 02_Avaluo_vehiculos_ministerio_2024.do
+*   2. Generar las variables como maximo, minimo y media. 
 *
 *-------------------------------------------------------------------
 
