@@ -7,6 +7,10 @@
 *
 *-------------------------------------------------------------------
 
+/*  1. Importación de los datos de Andemos que son las matriculas nuevas registradas por cada año
+    2. Se unen las bases de datos de los periodos  2019-2021 & 2022-2024 en la que todo quede en una sola data set
+*/
+
 **# Importar datos
 
 /* Importar los datos en stata es complejo por el peso de los datos, por lo cual, son guardados inmediamente en .dta, para Limpiar y estructurar*/
@@ -27,7 +31,7 @@
 
             save "$datacl/02-Vehiculos-2022-2024.dta", replace //Cuenta con observaciones de 2022 hasta 2024
 
-        * Unir ambas bases de datos de 01-vehiculos y 02-vehiculos 
+**# Unir ambas bases de datos de 01-vehiculos 2019-2021 y 02-vehiculos 2022-2024 
 
             use "$datacl/01-Vehiculos-2019-2021.dta", clear
             append using "$datacl/02-Vehiculos-2022-2024.dta"
@@ -39,7 +43,6 @@
             distinct MUNICIPIOCIUDAD // Distingir las cantidad de observaciones que son diferntes en una misma variable
 
             save "$datacl/01-Vehiculos-2019-2023.dta", replace //Cuenta con observaciones de 2019 hasta 2023, ideal para trabajar
-
 
 /*        
 **# Analisis para realizar Merge de prueba
