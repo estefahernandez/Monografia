@@ -3,13 +3,10 @@
 *
 *   Matriculas de vehículos nuevos en Colombia
 *     
-*   Limpieza y organización de datos
+*   1. Importación de los datos de Andemos que son las matriculas nuevas registradas por cada año
+*   2. Se unen las bases de datos de los periodos  2019-2021 & 2022-2024 en la que todo quede en una sola data set
 *
 *-------------------------------------------------------------------
-
-/*  1. Importación de los datos de Andemos que son las matriculas nuevas registradas por cada año
-    2. Se unen las bases de datos de los periodos  2019-2021 & 2022-2024 en la que todo quede en una sola data set
-*/
 
 **# Importar datos
 

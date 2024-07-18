@@ -3,14 +3,12 @@
 *
 *   Avalúo del ministerio para los vehículos 2024
 *     
-*   Limpieza y organización de datos
+*   1. Importar los datos en stata es complejo por el peso de los datos, por lo cual, son guardados inmediamente en .dta, para Limpiar y estructurar
+*   2. Existen en el ministerios varias clases de vehiculos, los cuales son organizados por clase, teniendo en cuenta cada uno de los años,
+*      convirtiendo cada base de datos en un panel por año, avaluo y clase.
 *
 *-------------------------------------------------------------------
 
-/*  1. Importar los datos en stata es complejo por el peso de los datos, por lo cual, son guardados inmediamente en .dta, para Limpiar y estructurar
-    2. Existen en el ministerios varias clases de vehiculos, los cuales son organizados por clase, teniendo en cuenta cada uno de los años,
-       convirtiendo cada base de datos en un panel por año, avaluo y clase.
-*/
 
 **# Importar Datos del avaluo 2024
 
