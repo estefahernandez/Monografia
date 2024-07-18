@@ -11,6 +11,8 @@
 
     use "$datacl/01-01-AvaluoColombia-2024.dta", clear // Base no repetidos de las 6 clases 
 
+        drop if AÑO < 2023
+
         duplicates report LINEA MARCA   
         duplicates drop LINEA MARCA, force 
 
@@ -25,4 +27,5 @@
 
         sum *_AVALUO, d
 
-    save "$ruta/Data_prepared/01-02-AvaluoColombia-2024.dta", replace  // La base guardada sin repetidos
+    // save "$datacl/01-02-AvaluoColombia-2024.dta", replace  // La base guardada sin repetidos
+    save "$datacl/01-03-AvaluoColombia-2023.dta", replace  // La base guardada sin repetidos
