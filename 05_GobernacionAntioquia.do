@@ -13,9 +13,9 @@
     2. Dentro de cada año del parque automotor, hay algunos inconsistencia en las que se toma la decisión de eliminar modelos de vehículos que no tiene relación con
     el año gravable
     3. La fecha de matricula & fecha de pago eran variables string y la cambie en fecha
-     */
+*/
 
-    ** Parque Automotor impuesto vehicular año fiscal 2014
+**# Parque Automotor impuesto vehicular año fiscal 2014
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2014.csv", clear
 
@@ -50,7 +50,7 @@
 
         save "$datacl/01_Parque_automotor_impuesto_vehicular_ano_fiscal_2014", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2015
+**# Parque Automotor impuesto vehicular año fiscal 2015
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2015.csv", clear
 
@@ -86,7 +86,7 @@
         save "$datacl/02_Parque_automotor_impuesto_vehicular_ano_fiscal_2015", replace
 
 
-    ** Parque Automotor impuesto vehicular año fiscal 2016
+**# Parque Automotor impuesto vehicular año fiscal 2016
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2016.csv", clear
         
@@ -121,7 +121,7 @@
 
         save "$datacl/03_Parque_automotor_impuesto_vehicular_ano_fiscal_2016", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2017
+**# Parque Automotor impuesto vehicular año fiscal 2017
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2017.csv", clear
 
@@ -156,7 +156,7 @@
 
         save "$datacl/04_Parque_automotor_impuesto_vehicular_ano_fiscal_2017", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2018
+**# Parque Automotor impuesto vehicular año fiscal 2018
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2018.csv", clear
 
@@ -190,7 +190,7 @@
         compress 
         save "$datacl/05_Parque_automotor_impuesto_vehicular_ano_fiscal_2018", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2019
+**# Parque Automotor impuesto vehicular año fiscal 2019
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2019.csv", clear
 
@@ -225,7 +225,7 @@
         save "$datacl/06_Parque_automotor_impuesto_vehicular_ano_fiscal_2019", replace
 
 
-    ** Parque Automotor impuesto vehicular año fiscal 2020
+**# Parque Automotor impuesto vehicular año fiscal 2020
 
        import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2020.csv", clear
 
@@ -260,7 +260,7 @@
 
         save "$datacl/07_Parque_automotor_impuesto_vehicular_ano_fiscal_2020", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2021
+**# Parque Automotor impuesto vehicular año fiscal 2021
 
         import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2021.csv", clear
 
@@ -295,7 +295,7 @@
 
         save "$datacl/08_Parque_automotor_impuesto_vehicular_ano_fiscal_2021", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2022
+**# Parque Automotor impuesto vehicular año fiscal 2022
 
        import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2022.csv", clear
 
@@ -330,7 +330,7 @@
 
         save "$datacl/09_Parque_automotor_impuesto_vehicular_ano_fiscal_2022", replace
 
-    ** Parque Automotor impuesto vehicular año fiscal 2023
+**# Parque Automotor impuesto vehicular año fiscal 2023
 
        import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2023.csv", clear
 
@@ -365,4 +365,3 @@
 
         save "$datacl/10_Parque_automotor_impuesto_vehicular_ano_fiscal_2023", replace
 
-        
