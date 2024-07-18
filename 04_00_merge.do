@@ -8,6 +8,8 @@
 *
 *-------------------------------------------------------------------
 
+clear all
+
 **# Merge 2019
 
     use "$datacl/02-Vehiculos-2019.dta"
@@ -70,4 +72,6 @@
             append using "$datacl/01-02-AvaluoColombia-2021_merge1.dta"
             append using "$datacl/01-02-AvaluoColombia-2022_merge1.dta"
             append using "$datacl/01-02-AvaluoColombia-2023_merge1.dta"
+
+        save "$datacl/01-02-AvaluoColombia-merge1.dta", replace
 
