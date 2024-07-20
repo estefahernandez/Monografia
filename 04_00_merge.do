@@ -4,7 +4,7 @@
 *   Merge 
 *
 *   1. Se hace un merge entre ambas bases de datos   01_01_matriculas_nuevas_vehículos_colombia.do & 02_01_Avaluo_vehiculos_ministerio_2024.do
-*    
+*   2. Se hizo un merge por cada año desde el 2019 hasta 2023 para obtener el recaudo completo para el año 2024 
 *
 *-------------------------------------------------------------------
 
