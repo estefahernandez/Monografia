@@ -334,7 +334,7 @@
 
        import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2023.csv", clear
 
-        drop if modelo > 2024
+       //drop if modelo > 2024
 
         gen clase00 = 0
         replace clase00 = 1 if inlist(clase, "MOTOTRICICLO", "MOTOCICLETA", "MOTOCICLETA ELECTRICA", "MOTOCARRO", "CUATRIMOTO") // Clasificando los vehiculos y las motos

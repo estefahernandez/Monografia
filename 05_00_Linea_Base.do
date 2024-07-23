@@ -67,3 +67,6 @@
 
     egen suma_valor_pagado = total(impuesto)
     format suma_valor_pagado %12.0fc // Formato no cientifico
+
+
+    save "$datacl/impuesto_vehicular_2023", replace
