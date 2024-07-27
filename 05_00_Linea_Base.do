@@ -13,17 +13,32 @@
 
 **# Impotación de datos
 
-    use "$datacl/10_Vehiculo_Parque_automotor_impuesto_vehicular_ano_fiscal_2023", clear
+    use "$datacl/10_Parque_automotor_impuesto_vehicular_ano_fiscal_2023", clear
 
-**# Selección de información modelos 2022 - 2024
 
-    keep if modelo >= 2022
+**# Restricciones
 
-    drop if fecha_matricula < date("01jan2021", "DMY")
+    local clases BUS "BUS ELECTRICO" BUSETA CAMION CUADRICICLO CUATRIMOTO "MICRO BUS" ///
+                MOTOCARRO "MOTOCARRO ELECTRICO" MOTOTRICICLO "TRACTO-CAMION" VOLQUETA
+
+    foreach clase in `clases' {
+        drop if clase == "`clase'"
+    }
+
+    drop capacidad 
+
+    keep if uso == "PARTICULAR"
+
+    drop vigencia uso
+
+
+**# Restricción modelo 
+
+    keep if modelo >= 2011
+
+    drop if fecha_matricula < date("01jan2011", "DMY")
     drop if fecha_matricula >= date("1jan2024", "DMY")
 
-**# Vehículos de transporte público de pasajeros o carga exonerados
-       // drop if clase == "BUS" | clase == "BUS ELECTRICO" | clase == "BUSETA" | clase == "MICRO BUS"
 
 **# Estado de pago por parte de los propietarios año 2023
 
@@ -33,7 +48,17 @@
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
     label variable estado_pago "ESTADO DE PAGO"
 
+**# Recaudo Gobernación de Antioquia
 
+    destring impuesto, replace force
+    egen suma_valor_pagado = total(impuesto)
+    format suma_valor_pagado %12.0fc // Formato no cientifico
+
+
+**# Guardar  data set
+
+    save "$datacl/Linea_Base_Parque_automotor_impuesto_vehicular_ano_fiscal_2023", replace
+/*
 **# Calcular el valor comercial del vehículo basado en el porcentaje del impuesto cobrado
 
     destring impuesto, replace force
@@ -63,10 +88,8 @@
     replace valor_comercial1 = pago_sin_descuento / 0.035 if pago_sin_descuento > 118083000 * 0.035
     format valor_comercial1 %12.0fc // Formato no cientifico
 
-**# Recaudo Gobernación de Antioquia
-
-    egen suma_valor_pagado = total(impuesto)
-    format suma_valor_pagado %12.0fc // Formato no cientifico
+*/
 
 
-    save "$datacl/impuesto_vehicular_2023", replace
+
+

@@ -11,6 +11,15 @@
 **# Emisiones vehicular
 
     use "$datacl/factores-de-emision-de-vehiculos-livianos.dta", clear
+
+    * Restricción modelo
+    keep if Modelo >= 2011
+    sort Modelo
+
+    drop COgkm Noxgkm NOgkm NO2gkm HCgkm PMmgkm PNx1012km
+
+
+ /*   
     
     destring Kilometro, replace force
 
@@ -47,15 +56,6 @@
     gen CO2_lower = CO2_estimated - 1.95 * CO2_sd
     gen CO2_upper = CO2_estimated + 1.95 * CO2_sd
 
+*/
 
-
-**# Describir los datos de investigación
-
-    describe
-
-    * Resumen estadístico
-    summarize cilindraje CO2_media CO2_sd
-
-    * Gráfico de dispersión para visualizar la relación entre cilindraje y CO2
-    scatter CO2_media cilindraje    
 

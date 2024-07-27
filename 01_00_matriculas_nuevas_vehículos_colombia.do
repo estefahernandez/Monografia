@@ -40,23 +40,3 @@
     distinct MUNICIPIOCIUDAD // Distingir las cantidad de observaciones que son diferntes en una misma variable
 
     save "$datacl/01-Vehiculos-2019-2023.dta", replace //Cuenta con observaciones de 2019 hasta 2023, ideal para trabajar
-
-/*        
-**# Analisis para realizar Merge de prueba
-
-    use "$datacl/01-Vehiculos-2019-2023.dta", clear
-
-    duplicates report MARCA LINEA
-    duplicates drop LINEA MARCA, force
-
-    ds, has(type string) // Me dice cuales variables son string
-
-    foreach var in `r(varlist)' { 
-        replace `var' = upper(`var')    
-    }  // Convierte todas las variables string en mayuscula
-
-    sort AÑO // Ordenar de menos a mayor
-
-    save "$datacl/02-Vehiculos-2019-2023.dta", replace // Base completa vehículos Colombia
-
-*/
