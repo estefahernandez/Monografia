@@ -60,9 +60,32 @@
 
         drop if cilindraje <= 600
 
+    ** Estado de pago por parte de los propietarios año 2023
+
+    gen estado_pago_2023 = "."
+    replace estado_pago = "Descuento" if fecha_pago >= date("01jan2023", "DMY") & fecha_pago <= date("21apr2023", "DMY")
+    replace estado_pago = "Sin Descuento" if fecha_pago >= date("22apr2023", "DMY") & fecha_pago <= date("21jul2023", "DMY")
+    replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
+    label variable estado_pago "ESTADO DE PAGO"
 
 **# Emisiones
 
+    ** Minimo
+
+        * Coincidencia exactas
+        gen min_CO2 = .
+        replace min_CO2 = 233.7 if modelo == 2023 & cilindraje == 1591
+        replace min_CO2 = 154.7 if modelo == 2023 & cilindraje == 1496
+        replace min_CO2 = 363.25 if modelo == 2023 & cilindraje == 1968
+
+        * valores proporcionales minimo
+        replace min_CO2 = 233.7 + (233.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
+        replace min_CO2 = 154.7 + (154.7 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
+        replace min_CO2 = 363.25 + (363.25 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
+
+        * missing
+        replace min_CO2 = min_CO2 if missing(min_CO2)
+        
     ** Media
         * Coincidencia exactas
             gen mean_CO2 = .
@@ -95,22 +118,6 @@
         replace max_CO2 = max_CO2 if missing(max_CO2)
 
 
-    ** Minimo
-
-        * Coincidencia exactas
-        gen min_CO2 = .
-        replace min_CO2 = 233.7 if modelo == 2023 & cilindraje == 1591
-        replace min_CO2 = 154.7 if modelo == 2023 & cilindraje == 1496
-        replace min_CO2 = 363.25 if modelo == 2023 & cilindraje == 1968
-
-        * valores proporcionales minimo
-        replace min_CO2 = 233.7 + (233.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
-        replace min_CO2 = 154.7 + (154.7 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
-        replace min_CO2 = 363.25 + (363.25 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
-
-        * missing
-        replace min_CO2 = min_CO2 if missing(min_CO2)
-
     ** Desviacion Estandar
 
         *Coincidencia exactas
@@ -129,7 +136,8 @@
 
 **# Eliminación observaciones vacías
 
-    
+    misstable summarize // Observar todas la variables
+    drop if missing(mean_CO2)
 
 **# Kilometros
 
@@ -140,22 +148,12 @@
 
     gen precio_CO2_gramos = .
     replace precio_CO2_gramos = 23394.60
-    label variable precio_CO2_gramos "Precio en gramos"
-
-
-
-
+    label variable precio_CO2_gramos "Precio x toneladas"
 
 **# Exportación a excel
 
-    export excel using "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioquia/Monografia-tesis/Datos_tratados/excel/lineabase.xlsx", replace firstrow(variables)
-
+   export excel using "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioquia/Monografia-tesis/Datos_tratados/excel/lineabase2023.xlsx", replace firstrow(variables)
 
 **# Guardar
 
     save "$datacl/Linea_base_modelo_2023.dta", replace
-
-
-
-
-
