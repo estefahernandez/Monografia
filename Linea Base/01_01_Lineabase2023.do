@@ -3,7 +3,7 @@
 *
 *   Linea Base 2023
 *     
-*   1. 
+*   1. Limpieza de los datos
 *      
 *      
 *   2. 
@@ -25,13 +25,16 @@
 **# Limpieza 
 
     * Quedarme solo con estas observaciones
-    keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMIONETA(P)", "CAMPERO")
+    keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
     keep if uso == "PARTICULAR"
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
     keep if modelo == 2023
 
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
+
+    ** formato
+    destring impuesto, replace force
 
     ** Organizar fechas 
 
@@ -57,8 +60,6 @@
 
         drop if cilindraje <= 600
 
-    ** formato
-    destring impuesto, replace force
 
 **# Emisiones
 
@@ -126,6 +127,10 @@
         * missing
         replace sd_CO2 = sd_CO2 if missing(sd_CO2)
 
+**# Eliminación observaciones vacías
+
+    
+
 **# Kilometros
 
     gen Km = 15000
@@ -134,8 +139,11 @@
 **# Precio CO2
 
     gen precio_CO2_gramos = .
-    replace precio_CO2_gramos = 23394.60/1000000
+    replace precio_CO2_gramos = 23394.60
     label variable precio_CO2_gramos "Precio en gramos"
+
+
+
 
 
 **# Exportación a excel
