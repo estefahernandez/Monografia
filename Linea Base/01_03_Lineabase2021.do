@@ -1,7 +1,7 @@
 
 *-------------------------------------------------------------------
 *
-*   Linea Base 2022
+*   Linea Base 2021
 *     
 *   1. Limpieza de los datos
 *      
@@ -22,7 +22,7 @@
     keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
     keep if uso == "PARTICULAR"
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
-    keep if modelo == 2022
+    keep if modelo == 2021
 
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
@@ -68,29 +68,14 @@
 
         * Coincidencia exactas
         gen min_CO2 = .
-        replace min_CO2 = 279.35 if modelo == 2022 & cilindraje == 1998
-        replace min_CO2 = 266.8 if modelo == 2022 & cilindraje == 1598
+        replace min_CO2 = 279.35 
 
-        * valores proporcionales minimo
-        replace min_CO2 = 279.35 + (279.35 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace min_CO2 = 266.8 + (266.8 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
-        * missing
-        replace min_CO2 = min_CO2 if missing(min_CO2)
         
     ** Media
         * Coincidencia exactas
             gen mean_CO2 = .
             replace mean_CO2 = 285.35 if modelo == 2022 & cilindraje == 1998
-            replace mean_CO2 = 268.8 if modelo == 2022 & cilindraje == 1598
 
-
-        * Proporcional media
-            replace mean_CO2 = 285.35 + (285.35 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-            replace mean_CO2 = 268.8 + (268.8 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
-        
-        * missing
             replace mean_CO2 = mean_CO2 if missing(mean_CO2)
     
     ** Maximo
@@ -98,16 +83,7 @@
         *Coincidencia exactas
         gen max_CO2 = .
         replace max_CO2 = 293.6 if modelo == 2022 & cilindraje == 1998
-        replace max_CO2 = 269.6 if modelo == 2022 & cilindraje == 1598
 
-
-        * valores proporcionales maximo
-        replace max_CO2 = 293.6 + (293.6 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace max_CO2 = 269.6 + (269.6 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
-
-        * missing
-        replace max_CO2 = max_CO2 if missing(max_CO2)
 
 
     ** Desviacion Estandar
@@ -115,16 +91,7 @@
         *Coincidencia exactas
         gen sd_CO2 = .
         replace sd_CO2 = 6.05 if modelo == 2022 & cilindraje == 1998
-        replace sd_CO2 = 1.4 if modelo == 2022 & cilindraje == 1598
 
-
-        * valores proporcionales sd
-        replace sd_CO2 = 6.05 + (6.05 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace sd_CO2 = 1.4 + (1.4 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
-
-        * missing
-        replace sd_CO2 = sd_CO2 if missing(sd_CO2)
 
 **# Eliminación observaciones vacías
 
