@@ -79,7 +79,7 @@
         replace min_CO2 = 363.25 if modelo == 2023 & cilindraje == 1968
 
         * valores proporcionales minimo
-        replace min_CO2 = 233.7 + (233.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
+        replace min_CO2 = 233.7 + (233.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 2000
         replace min_CO2 = 154.7 + (154.7 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
         replace min_CO2 = 363.25 + (363.25 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
 
@@ -94,7 +94,7 @@
             replace mean_CO2 = 390.15 if modelo == 2023 & cilindraje == 1968
 
         * Proporcional media
-            replace mean_CO2 = 238.1 + (238.1 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
+            replace mean_CO2 = 238.1 + (238.1 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 2000
             replace mean_CO2 = 161.2 + (161.2 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
             replace mean_CO2 = 390.15 + (390.15 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
         
@@ -110,7 +110,7 @@
         replace max_CO2 = 424.7 if modelo == 2023 & cilindraje == 1968
 
         * valores proporcionales maximo
-        replace max_CO2 = 240.7 + (240.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
+        replace max_CO2 = 240.7 + (240.7 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 2000
         replace max_CO2 = 165.2 + (165.2 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
         replace max_CO2 = 424.7 + (424.7 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
 
@@ -127,7 +127,7 @@
         replace sd_CO2 = 27.3 if modelo == 2023 & cilindraje == 1968
 
         * valores proporcionales sd
-        replace sd_CO2 = 3.1 + (3.1 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 1600
+        replace sd_CO2 = 3.1 + (3.1 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1500 & cilindraje < 2000
         replace sd_CO2 = 5.7 + (5.7 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1500
         replace sd_CO2 = 27.3 + (27.3 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
 
@@ -136,8 +136,8 @@
 
 **# Eliminación observaciones vacías
 
-    misstable summarize // Observar todas la variables
-    drop if missing(mean_CO2)
+    // misstable summarize // Observar todas la variables
+    // drop if missing(mean_CO2)
 
 **# Kilometros
 
