@@ -1,10 +1,7 @@
-
 *-------------------------------------------------------------------
 *
-*   Linea Base 2021
+*   Linea Base 2017
 *     
-*      
-*
 *-------------------------------------------------------------------
 
 
@@ -18,7 +15,7 @@
     keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
     keep if uso == "PARTICULAR"
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
-    keep if modelo == 2021
+    keep if modelo == 2017
 
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
@@ -48,7 +45,7 @@
 
         sort fecha_matricula
 
-        drop if cilindraje <= 800
+        drop if cilindraje < 900
 
     ** Estado de pago por parte de los propietarios año 2023
 
@@ -64,27 +61,27 @@
 
         * Coincidencia exactas
         gen min_CO2 = .
-        replace min_CO2 = 376.2 if modelo == 2021 
+        replace min_CO2 = 164 if modelo == 2017
 
         
     ** Media
         * Coincidencia exactas
             gen mean_CO2 = .
-            replace mean_CO2 = 384.1 if modelo == 2021
+            replace mean_CO2 = 168.1 if modelo == 2017
 
     
     ** Maximo
 
         *Coincidencia exactas
         gen max_CO2 = .
-        replace max_CO2 = 401.4 if modelo == 2021
+        replace max_CO2 = 173 if modelo == 2017
 
 
     ** Desviacion Estandar
 
         *Coincidencia exactas
         gen sd_CO2 = .
-        replace sd_CO2 = 11.8 if modelo == 2021
+        replace sd_CO2 = 3.8 if modelo == 2017
 
 
 **# Eliminación observaciones vacías
@@ -105,8 +102,8 @@
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2021.xlsx", replace firstrow(variables)
+   export excel using "$excel/Datos_tratados/excel/lineabase2017.xlsx", replace firstrow(variables)
 
 **# Guardar
 
-    save "$datacl/Linea_base_modelo_2021.dta", replace
+    save "$datacl/Linea_base_modelo_2017.dta", replace

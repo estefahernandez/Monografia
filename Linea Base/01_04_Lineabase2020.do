@@ -1,12 +1,11 @@
 
 *-------------------------------------------------------------------
 *
-*   Linea Base 2022
+*   Linea Base 2021
 *     
 *      
 *
 *-------------------------------------------------------------------
-
 
 **# importar recaudo fiscal 2023 Gobernación de Antioquia
 
@@ -18,7 +17,7 @@
     keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
     keep if uso == "PARTICULAR"
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
-    keep if modelo == 2022
+    keep if modelo == 2020
 
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
@@ -48,7 +47,7 @@
 
         sort fecha_matricula
 
-        drop if cilindraje <= 800
+        drop if cilindraje <= 600
 
     ** Estado de pago por parte de los propietarios año 2023
 
@@ -58,28 +57,20 @@
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
     label variable estado_pago "ESTADO DE PAGO"
 
-**# ID
-
-
-    gen random_id = _n 
-    egen id = group(marca modelo random_id)
-    gen id_string = marca + string(modelo) + "_" + string(random_id)
-
-    drop d random_id
-    rename id_string ID
-
 **# Emisiones
 
     ** Minimo
 
         * Coincidencia exactas
         gen min_CO2 = .
-        replace min_CO2 = 279.35 if modelo == 2022 & cilindraje == 1998
-        replace min_CO2 = 266.8 if modelo == 2022 & cilindraje == 1598
+        replace min_CO2 = 351.5 if modelo == 2020 & cilindraje == 1389
+        replace min_CO2 = 259.15 if modelo == 2020 & cilindraje == 1598
+        replace min_CO2 = 304.2 if modelo == 2020 & cilindraje == 1395
 
         * valores proporcionales minimo
-        replace min_CO2 = 279.35 + (279.35 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace min_CO2 = 266.8 + (266.8 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
+        replace min_CO2 = 351.5 + (351.5 / 1389) * (cilindraje - 1389) if modelo == 2020 & cilindraje < 1400
+        replace min_CO2 = 259.15 + (259.15 / 1598) * (cilindraje - 1598) if modelo == 2020 & cilindraje >= 1600
+        replace min_CO2 = 304.2 + (304.2 / 1395) * (cilindraje - 1395) if modelo == 2020 &  cilindraje >= 1400 &  cilindraje < 1600
 
         * missing
         replace min_CO2 = min_CO2 if missing(min_CO2)
@@ -87,14 +78,14 @@
     ** Media
         * Coincidencia exactas
             gen mean_CO2 = .
-            replace mean_CO2 = 285.35 if modelo == 2022 & cilindraje == 1998
-            replace mean_CO2 = 268.8 if modelo == 2022 & cilindraje == 1598
-
+            replace mean_CO2 = 354.6 if modelo == 2020 & cilindraje == 1389
+            replace mean_CO2 = 262.25 if modelo == 2020 & cilindraje == 1496
+            replace mean_CO2 = 331.8 if modelo == 2020 & cilindraje == 1395
 
         * Proporcional media
-            replace mean_CO2 = 285.35 + (285.35 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-            replace mean_CO2 = 268.8 + (268.8 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
+            replace mean_CO2 = 354.6 + (354.6 / 1389) * (cilindraje - 1389) if modelo == 2020 & cilindraje < 1400
+            replace mean_CO2 = 262.25 + (262.25 / 1496) * (cilindraje - 1496) if modelo == 2020 & cilindraje >= 1600
+            replace mean_CO2 = 331.8 + (331.8 / 1395) * (cilindraje - 1395) if modelo == 2020 & cilindraje >= 1400 &  cilindraje < 1600
         
         * missing
             replace mean_CO2 = mean_CO2 if missing(mean_CO2)
@@ -103,14 +94,14 @@
 
         *Coincidencia exactas
         gen max_CO2 = .
-        replace max_CO2 = 293.6 if modelo == 2022 & cilindraje == 1998
-        replace max_CO2 = 269.6 if modelo == 2022 & cilindraje == 1598
-
+        replace max_CO2 = 359.8 if modelo == 2020 & cilindraje == 1389
+        replace max_CO2 = 267 if modelo == 2020 & cilindraje == 1496
+        replace max_CO2 = 346.5 if modelo == 2020 & cilindraje == 1395
 
         * valores proporcionales maximo
-        replace max_CO2 = 293.6 + (293.6 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace max_CO2 = 269.6 + (269.6 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
+        replace max_CO2 = 359.8 + (359.8 / 1389) * (cilindraje - 1389) if modelo == 2020 & cilindraje < 1400
+        replace max_CO2 = 267 + (267 / 1496) * (cilindraje - 1496) if modelo == 2020 & cilindraje >= 1600
+        replace max_CO2 = 346.5 + (346.5 / 1395) * (cilindraje - 1395) if modelo == 2020 & cilindraje >= 1400 &  cilindraje < 1600
 
         * missing
         replace max_CO2 = max_CO2 if missing(max_CO2)
@@ -120,21 +111,21 @@
 
         *Coincidencia exactas
         gen sd_CO2 = .
-        replace sd_CO2 = 6.05 if modelo == 2022 & cilindraje == 1998
-        replace sd_CO2 = 1.4 if modelo == 2022 & cilindraje == 1598
-
+        replace sd_CO2 = 3.7 if modelo == 2020 & cilindraje == 1389
+        replace sd_CO2 = 4.8 if modelo == 2020 & cilindraje == 1598
+        replace sd_CO2 = 19.1 if modelo == 2020 & cilindraje == 1968
 
         * valores proporcionales sd
-        replace sd_CO2 = 6.05 + (6.05 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
-        replace sd_CO2 = 1.4 + (1.4 / 1598) * (cilindraje - 1598) if modelo == 2022 & cilindraje < 2000
-
+        replace sd_CO2 = 3.7 + (3.7 / 1389) * (cilindraje - 1389) if modelo == 2020 & cilindraje < 1400
+        replace sd_CO2 = 4.8 + (4.8 / 1598) * (cilindraje - 1598) if modelo == 2020 & cilindraje >= 1600
+        replace sd_CO2 = 19.1 + (19.1 / 1968) * (cilindraje - 1968) if modelo == 2020 & cilindraje >= 1400 &  cilindraje < 1600
 
         * missing
         replace sd_CO2 = sd_CO2 if missing(sd_CO2)
 
 **# Eliminación observaciones vacías
 
-    misstable summarize // Observar todas la variables
+     misstable summarize // Observar todas la variables
     // drop if missing(mean_CO2)
 
 **# Kilometros
@@ -150,8 +141,8 @@
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2022.xlsx", replace firstrow(variables)
+   export excel using "$excel/Datos_tratados/excel/lineabase2020.xlsx", replace firstrow(variables)
 
 **# Guardar
 
-    save "$datacl/Linea_base_modelo_2022.dta", replace
+    save "$datacl/Linea_base_modelo_2020.dta", replace
