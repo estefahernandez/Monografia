@@ -63,5 +63,7 @@
 
 
 **# Guardar data set
+
+    compress
     save "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", replace
 
