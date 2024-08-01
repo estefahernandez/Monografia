@@ -2,7 +2,9 @@
 *-------------------------------------------------------------------
 *
 *   Linea Base 2023
-*      
+*   - Filtros con base a la información a usar
+*   - Coincidencia de emisiones con el modelo y cilindraje 
+*   - No coincidencia de modelo y cilindraje se hace la proporción
 *
 *-------------------------------------------------------------------
 
@@ -29,43 +31,45 @@
 
     ** Minimo
 
-        * Coincidencia exactas
         gen min_CO2eq_ton = .
+
+        * valores proporcionales minimo
+        replace min_CO2eq_ton = 0.0002555 + (0.0002555 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
+        replace min_CO2eq_ton = 0.0001558 + (0.0001558 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
+        replace min_CO2eq_ton = 0.0008065 + (0.0008065 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
+
+        * Coincidencia exactas
         replace min_CO2eq_ton = 0.0002555 if modelo == 2023 & cilindraje == 1591
         replace min_CO2eq_ton = 0.0001558 if modelo == 2023 & cilindraje == 1496
         replace min_CO2eq_ton = 0.0008065 if modelo == 2023 & cilindraje == 1968
-
-        * valores proporcionales minimo
-        replace min_CO2 = 0.0002555 + (0.0002555 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
-        replace min_CO2 = 0.0001558 + (0.0001558 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
-        replace min_CO2 = 0.0008065 + (0.0008065 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
-
         
     ** Media
 
-        * Coincidencia exactas
-            gen mean_CO2eq_ton = .
-            replace mean_CO2eq_ton = 0.0002635 if modelo == 2023 & cilindraje == 1591
-            replace mean_CO2eq_ton = 0.0001634 if modelo == 2023 & cilindraje == 1496
-            replace mean_CO2eq_ton = 0.00043205 if modelo == 2023 & cilindraje == 1968
+        gen mean_CO2eq_ton = .
 
         * Proporcional media
-            replace mean_CO2 = 0.0002635 + (0.0002635 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
-            replace mean_CO2 = 0.0001634 + (0.0001634 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
-            replace mean_CO2 = 0.00043205 + (0.00043205 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
-        
+        replace mean_CO2eq_ton = 0.0002635 + (0.0002635 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
+        replace mean_CO2eq_ton = 0.0001634 + (0.0001634 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
+        replace mean_CO2eq_ton = 0.00043205 + (0.00043205 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
+
+        * Coincidencia exactas
+        replace mean_CO2eq_ton = 0.0002635 if modelo == 2023 & cilindraje == 1591
+        replace mean_CO2eq_ton = 0.0001634 if modelo == 2023 & cilindraje == 1496
+        replace mean_CO2eq_ton = 0.00043205 if modelo == 2023 & cilindraje == 1968
+
     ** Maximo
 
-        *Coincidencia exactas
-        gen max_CO2 = .
-        replace max_CO2 = 0.0002701 if modelo == 2023 & cilindraje == 1591
-        replace max_CO2 = 0.0001664 if modelo == 2023 & cilindraje == 1496
-        replace max_CO2 = 0.0004695 if modelo == 2023 & cilindraje == 1968
-
+        gen max_CO2eq_ton = .
+    
         * valores proporcionales maximo
-        replace max_CO2 = 0.0002701 + (0.0002701 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
-        replace max_CO2 = 0.0001664 + (0.0001664 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
-        replace max_CO2 = 0.0004695 + (0.0004695 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
+        replace max_CO2eq_ton = 0.0002701 + (0.0002701 / 1591) * (cilindraje - 1591) if modelo == 2023 & cilindraje >= 1600 & cilindraje < 2000
+        replace max_CO2eq_ton = 0.0001664 + (0.0001664 / 1496) * (cilindraje - 1496) if modelo == 2023 & cilindraje < 1600
+        replace max_CO2eq_ton = 0.0004695 + (0.0004695 / 1968) * (cilindraje - 1968) if modelo == 2023 & cilindraje >= 2000
+
+        *Coincidencia exactas
+        replace max_CO2eq_ton = 0.0002701 if modelo == 2023 & cilindraje == 1591
+        replace max_CO2eq_ton = 0.0001664 if modelo == 2023 & cilindraje == 1496
+        replace max_CO2eq_ton = 0.0004695 if modelo == 2023 & cilindraje == 1968
 
 **# Kilometros
 

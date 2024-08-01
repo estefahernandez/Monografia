@@ -1,8 +1,10 @@
 
 *-------------------------------------------------------------------
 *
-*   Linea Base 2017
-*     
+*   Linea Base 2016
+*     - Se limpia la base de datos con base al modelo   
+*     - Se agregan las emisiones de coincidencia y proporcionales
+*     - Se guarda la base
 *-------------------------------------------------------------------
 
 
@@ -21,128 +23,68 @@
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
 
-    ** formato
-    destring impuesto, replace force
-
-    ** Organizar fechas 
-
-        * Matriculas
-        gen fecha_matricula00 = date(fecha_matricula, "YMD")
-        format fecha_matricula00 %td
-
-        * Pagos
-        gen fecha_pago00 = date(fecha_pago, "YMD")
-        format fecha_pago00 %td
-
-        * Renombrar variables
-        drop fecha_pago fecha_matricula
-        rename (fecha_pago00 fecha_matricula00) (fecha_pago fecha_matricula)
-        label variable fecha_pago "FECHA DE PAGO"
-        label variable fecha_matricula "FECHA DE MATRICULA"
-
-        * Orden variables
-        order fecha_matricula, first
-        order fecha_pago, before(impuesto)
-
-        sort fecha_matricula
-
-        drop if cilindraje < 900
-
-    ** Estado de pago por parte de los propietarios año 2023
-
-    gen estado_pago_2023 = "."
-    replace estado_pago = "Descuento" if fecha_pago >= date("01jan2023", "DMY") & fecha_pago <= date("21apr2023", "DMY")
-    replace estado_pago = "Sin Descuento" if fecha_pago >= date("22apr2023", "DMY") & fecha_pago <= date("21jul2023", "DMY")
-    replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
-    label variable estado_pago "ESTADO DE PAGO"
+    * Cilindrajes erroneos
+    drop if cilindraje <= 814
 
 **# Emisiones
 
     ** Minimo
-
-        * Coincidencia exactas
-        gen min_CO2 = .
-        replace min_CO2 = 486.3 if modelo == 2017 & cilindraje == 1598
-        replace min_CO2 = 251.3 if modelo == 2017 & cilindraje == 1600
-        replace min_CO2 = 423.6 if modelo == 2017  & cilindraje == 1796
-        replace min_CO2 = 292 if modelo == 2017 & cilindraje == 1998
-        replace min_CO2 = 394.8 if modelo == 2017 & cilindraje == 2477
+    
+        gen min_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace min_CO2 = 486.3 + (486.3 / 1598) * (cilindraje - 1598) if modelo == 2017 & cilindraje <= 1500
-        replace min_CO2 = 251.3 + (251.3 / 1600) * (cilindraje - 1600) if modelo == 2017 & cilindraje > 1500  & cilindraje <= 1600
-        replace min_CO2 = 423.6 + (423.6 / 1796) * (cilindraje - 1796) if modelo == 2017 & cilindraje > 1600 & cilindraje < 2000
-        replace min_CO2 = 292 + (292 / 1998) * (cilindraje - 1998) if modelo == 2017 & cilindraje >= 2000 & cilindraje < 2500
-        replace min_CO2 = 394.8 + (394.8 / 2477) * (cilindraje - 2477) if modelo == 2017 & cilindraje >= 2500
+        replace min_CO2eq_ton = 0.0003559 + (0.0003559 / 1598) * (cilindraje - 1598) if modelo == 2016
+        replace min_CO2eq_ton = 0.0002589 + (0.0002589 / 1600) * (cilindraje - 1600) if modelo == 2016
+        replace min_CO2eq_ton = 0.0002965 + (0.0002965 / 1998) * (cilindraje - 1998) if modelo == 2016
+        replace min_CO2eq_ton = 0.0004355 + (0.0004355 / 1796) * (cilindraje - 1796) if modelo == 2016
+        replace min_CO2eq_ton = 0.00054 + (0.00054 / 2477) * (cilindraje - 2477) if modelo == 2016
 
-        * missing
-        replace min_CO2 = min_CO2 if missing(min_CO2)
-        
-    ** Media
         * Coincidencia exactas
-            gen mean_CO2 = .
-            replace mean_CO2 = 521.1 if modelo == 2017 & cilindraje == 1598
-            replace mean_CO2 = 258.5 if modelo == 2017 & cilindraje == 1600
-            replace mean_CO2 = 444.6 if modelo == 2017 & cilindraje == 1796
-            replace mean_CO2 = 300.9 if modelo == 2017 & cilindraje == 1998
-            replace mean_CO2 = 402.2 if modelo == 2017 & cilindraje == 2477
+        replace min_CO2eq_ton = 0.0003559 if modelo == 2016 & cilindraje == 1598
+        replace min_CO2eq_ton = 0.0002589 if modelo == 2016 & cilindraje == 1600
+        replace min_CO2eq_ton = 0.0002965 if modelo == 2016 & cilindraje == 1998
+        replace min_CO2eq_ton = 0.0004355 if modelo == 2016 & cilindraje == 1796
+        replace min_CO2eq_ton = 0.00054 if modelo == 2016 & cilindraje == 2477
 
-        * Proporcional media
-            replace mean_CO2 = 521.1 + (521.1 / 1598) * (cilindraje - 1598) if modelo == 2017 & cilindraje <= 1500
-            replace mean_CO2 = 258.5 + (258.5 / 1600) * (cilindraje - 1600) if modelo == 2017 & cilindraje > 1500  & cilindraje <= 1600
-            replace mean_CO2 = 444.6 + (444.6 / 1796) * (cilindraje - 1796) if modelo == 2017 & cilindraje > 1600 & cilindraje < 2000
-            replace mean_CO2 = 300.9 + (3300.9 / 1998) * (cilindraje - 1998) if modelo == 2017 & cilindraje >= 2000 & cilindraje < 2500
-            replace mean_CO2 = 402.2 + (402.2 / 2477) * (cilindraje - 2477) if modelo == 2017 & cilindraje >= 2500
-            
-        * missing
-            replace mean_CO2 = mean_CO2 if missing(mean_CO2)
-    
+    ** Media
+
+        gen mean_CO2eq_ton = .
+
+        * valores proporcionales minimo
+        replace mean_CO2eq_ton = 0.000301133 + (0.000301133 / 1598) * (cilindraje - 1598) if modelo == 2016
+        replace mean_CO2eq_ton = 0.000267 + (0.000267 / 1600) * (cilindraje - 1600) if modelo == 2016
+        replace mean_CO2eq_ton = 0.000306 + (0.000306 / 1998) * (cilindraje - 1998) if modelo == 2016
+        replace mean_CO2eq_ton = 0.0004593 + (0.0004593 / 1796) * (cilindraje - 1796) if modelo == 2016
+        replace mean_CO2eq_ton = 0.0005525 + (0.0005525 / 2477) * (cilindraje - 2477) if modelo == 2016
+
+        * Coincidencia exactas
+        replace mean_CO2eq_ton = 0.000301133 if modelo == 2016 & cilindraje == 1598
+        replace mean_CO2eq_ton = 0.000267 if modelo == 2016 & cilindraje == 1600
+        replace mean_CO2eq_ton = 0.000306 if modelo == 2016 & cilindraje == 1998
+        replace mean_CO2eq_ton = 0.0004593 if modelo == 2016 & cilindraje == 1796
+        replace mean_CO2eq_ton = 0.0005525 if modelo == 2016 & cilindraje == 2477
+        
     ** Maximo
 
-        *Coincidencia exactas
-        gen max_CO2 = .
-        replace max_CO2 = 522.5 if modelo == 2017 & cilindraje == 1598
-        replace max_CO2 = 258.7 if modelo == 2017 & cilindraje == 1600
-        replace max_CO2 = 462.8 if modelo == 2017 & cilindraje == 1796
-        replace max_CO2 = 310.8 if modelo == 2017 & cilindraje == 1998
-        replace max_CO2 = 410.3 if modelo == 2017 & cilindraje == 2477
+        gen max_CO2eq_ton = .
 
-        * valores proporcionales maximo
-        replace max_CO2 = 240.7 + (240.7 / 1598) * (cilindraje - 1598) if modelo == 2017 & cilindraje >= 1500 & cilindraje < 2000
-        replace max_CO2 = 165.2 + (165.2 / 1496) * (cilindraje - 1496) if modelo == 2017 & cilindraje < 1500
-        replace max_CO2 = 424.7 + (424.7 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
-        replace max_CO2 = 424.7 + (424.7 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
-        replace max_CO2 = 424.7 + (424.7 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
+        * valores proporcionales minimo
+        replace max_CO2eq_ton = 0.000302433 + (0.000302433 / 1598) * (cilindraje - 1598) if modelo == 2016
+        replace max_CO2eq_ton = 0.0002691 + (0.0002691 / 1600) * (cilindraje - 1600) if modelo == 2016
+        replace max_CO2eq_ton = 0.0003163 + (0.0003163 / 1998) * (cilindraje - 1998) if modelo == 2016
+        replace max_CO2eq_ton = 0.0004817 + (0.0004817 / 1796) * (cilindraje - 1796) if modelo == 2016
+        replace max_CO2eq_ton = 0.000567 + (0.000567 / 2477) * (cilindraje - 2477) if modelo == 2016
 
-        * missing
-        replace max_CO2 = max_CO2 if missing(max_CO2)
-
-
-    ** Desviacion Estandar
-
-        *Coincidencia exactas
-        gen sd_CO2 = .
-        replace sd_CO2 = 16.3 if modelo == 2017 & cilindraje == 1598
-        replace sd_CO2 = 5.2 if modelo == 2017 & cilindraje == 1600
-        replace sd_CO2 = 16.3 if modelo == 2017 & cilindraje == 1796
-        replace sd_CO2 = 7.7 if modelo == 2017 & cilindraje == 1998
-        replace sd_CO2 = 7.7 if modelo == 2017 & cilindraje == 2477
-
-        * valores proporcionales sd
-        replace sd_CO2 = 3.1 + (3.1 / 1598) * (cilindraje - 1598) if modelo == 2017 & cilindraje >= 1500 & cilindraje < 2000
-        replace sd_CO2 = 5.7 + (5.7 / 1496) * (cilindraje - 1496) if modelo == 2017 & cilindraje < 1500
-        replace sd_CO2 = 27.3 + (27.3 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
-        replace sd_CO2 = 27.3 + (27.3 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
-        replace sd_CO2 = 27.3 + (27.3 / 1968) * (cilindraje - 1968) if modelo == 2017 & cilindraje >= 2000
-
-        * missing
-        replace sd_CO2 = sd_CO2 if missing(sd_CO2)
-
+        * Coincidencia exactas
+        replace max_CO2eq_ton = 0.000302433 if modelo == 2016 & cilindraje == 1598
+        replace max_CO2eq_ton = 0.0002691 if modelo == 2016 & cilindraje == 1600
+        replace max_CO2eq_ton = 0.0003163 if modelo == 2016 & cilindraje == 1998
+        replace max_CO2eq_ton = 0.0004817 if modelo == 2016 & cilindraje == 1796
+        replace max_CO2eq_ton = 0.000567 if modelo == 2016 & cilindraje == 2477
 
 **# Eliminación observaciones vacías
 
     misstable summarize // Observar todas la variables
-    // drop if missing(mean_CO2)
 
 **# Kilometros
 
@@ -151,14 +93,14 @@
 
 **# Precio CO2
 
-    gen precio_CO2_ton = .
-    replace precio_CO2_ton = 23394.60
-    label variable precio_CO2_ton "Precio x toneladas"
+    gen precio_CO2eq_ton = .
+    replace precio_CO2eq_ton = 23394.60
+    label variable precio_CO2eq_ton "Precio x toneladas"
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2017.xlsx", replace firstrow(variables)
+   export excel using "$excel/Datos_tratados/excel/lineabase2016.xlsx", replace firstrow(variables)
 
 **# Guardar
 
-    save "$datacl/Linea_base_modelo_2017.dta", replace
+    save "$datacl/Linea_base_modelo_2016.dta", replace

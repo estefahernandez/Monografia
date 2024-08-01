@@ -1,10 +1,9 @@
-
 *-------------------------------------------------------------------
 *
-*   Linea Base 2021
-*     -  Filtros con base a la información a usar
-*     - Solo se tiene una observación por lo cual las que coincidan se agrega la emisión
-*       las que no se toma la propoción
+*   Linea Base 2012
+*     - Se limpia la base de datos con base al modelo   
+*     - Se agregan las emisiones de coincidencia y proporcionales
+*     - Se guarda la base
 *-------------------------------------------------------------------
 
 
@@ -18,13 +17,13 @@
     keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
     keep if uso == "PARTICULAR"
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
-    keep if modelo == 2021
+    keep if modelo == 2012
 
     * Eliminar variables
     drop capacidad vigencia estado_agrupado combustible uso
 
     * Cilindrajes erroneos
-    drop if cilindraje <= 800
+    drop if cilindraje <= 812
 
 **# Emisiones
 
@@ -33,30 +32,30 @@
         gen min_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace min_CO2eq_ton = 0.0003816 + (0.0003816 / 1998) * (cilindraje - 1998) if modelo == 2021
+        replace min_CO2eq_ton = 0.0004356 + (0.0004356 / 2500) * (cilindraje - 2500) if modelo == 2012
 
         * Coincidencia exactas
-        replace min_CO2eq_ton = 0.0003816 if modelo == 2021 & cilindraje == 1998
+        replace min_CO2eq_ton = 0.0004356 if modelo == 2012 & cilindraje == 2500
 
     ** Media
 
         gen mean_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace mean_CO2eq_ton = 0.0003928 + (0.0003928 / 1998) * (cilindraje - 1998) if modelo == 2021
+        replace mean_CO2eq_ton = 0.0004493 + (0.0004493 / 2500) * (cilindraje - 2500) if modelo == 2012
 
         * Coincidencia exactas
-        replace mean_CO2eq_ton = 0.0003928 if modelo == 2021 & cilindraje == 1998
+        replace mean_CO2eq_ton = 0.0004493 if modelo == 2012 & cilindraje == 2500
         
     ** Maximo
 
         gen max_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace max_CO2eq_ton = 0.0004136 + (0.0004136 / 1998) * (cilindraje - 1998) if modelo == 2021
+        replace max_CO2eq_ton = 0.0004624 + (0.0004624 / 2500) * (cilindraje - 2500) if modelo == 2012
 
         *Coincidencia exactas
-        replace max_CO2eq_ton = 0.0004136 if modelo == 2021 & cilindraje == 1998
+        replace max_CO2eq_ton = 0.0004624 if modelo == 2012 & cilindraje == 2500
 
 **# Eliminación observaciones vacías
 
@@ -75,8 +74,8 @@
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2021.xlsx", replace firstrow(variables)
+   export excel using "$excel/Datos_tratados/excel/lineabase2012.xlsx", replace firstrow(variables)
 
 **# Guardar
 
-    save "$datacl/Linea_base_modelo_2021.dta", replace
+    save "$datacl/Linea_base_modelo_2012.dta", replace

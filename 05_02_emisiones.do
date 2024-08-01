@@ -46,10 +46,12 @@
     mean_CO_CO2eq_gkm max_CO_CO2eq_gkm min_NOx_CO2eq_gkm mean_Nox_CO2eq_gkm max_Nox_CO2eq_gkm
 
     * Co2eq_agregado
-    gen min_Co2eq_gkm_agregado = min_CO2gkm + min_CO_CO2eq_gkm + min_NOx_CO2eq_gkm
-    gen mean_Co2eq_gkm_agregado = min_CO2gkm + min_CO_CO2eq_gkm + min_NOx_CO2eq_gkm
-    gen max_Co2eq_gkm_agregado = min_CO2gkm + min_CO_CO2eq_gkm + min_NOx_CO2eq_gkm
+    gen min_Co2eq_ton_km_agregado = (min_CO2gkm + min_CO_CO2eq_gkm + min_NOx_CO2eq_gkm)/1000000
+    gen mean_Co2eq_ton_km_agregado = (mean_CO2gkm + mean_CO_CO2eq_gkm + mean_Nox_CO2eq_gkm)/1000000
+    gen max_Co2eq_ton_km_agregado = (max_CO2gkm + max_CO_CO2eq_gkm + max_Nox_CO2eq_gkm)/1000000
 
-    keep Modelo Cilindraje Kilometro min_Co2eq_gkm_agregado mean_Co2eq_gkm_agregado max_Co2eq_gkm_agregado
+    keep Modelo Cilindraje Kilometro min_Co2eq_ton_km_agregado mean_Co2eq_ton_km_agregado max_Co2eq_ton_km_agregado
+
+
 
     save "$datacl/factores-de-emision-de-vehiculos-livianos-CO2equivalente_agregado.dta", replace
