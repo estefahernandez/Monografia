@@ -28,7 +28,7 @@
         replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
         label variable estado_pago "ESTADO DE PAGO"
 
-    ** Calcular el valor comercial del vehículo basado en el porcentaje del impuesto cobrado
+/*    ** Calcular el valor comercial del vehículo basado en el porcentaje del impuesto cobrado
         destring impuesto, replace force
         gen valor_comercial = .
         replace valor_comercial = impuesto / 0.015 if impuesto <= 52483000 * 0.015
@@ -36,4 +36,13 @@
         replace valor_comercial = impuesto / 0.035 if impuesto > 118083000 * 0.035
         format valor_comercial %12.0fc // Formato no cientifico
 
+*/
 
+
+    ** Calcular el valor comercial del vehículo basado en el porcentaje del impuesto cobrado
+        destring impuesto, replace force
+        gen valor_comercial = .
+        replace valor_comercial = impuesto if impuesto <= 52483000 * 0.015
+        replace valor_comercial = impuesto if impuesto > 52483000 * 0.025 & impuesto <= 118083000 * 0.025
+        replace valor_comercial = impuesto / 0.035 if impuesto > 118083000 * 0.035
+        format valor_comercial %12.0fc // Formato no cientifico
