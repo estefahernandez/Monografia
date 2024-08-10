@@ -33,7 +33,7 @@
         gen min_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace mean_CO2eq_ton = 0.000301133 + (0.000301133 / 1598) * (cilindraje - 1598) if modelo == 2016
+        replace min_CO2eq_ton = 0.000301133 + (0.000301133 / 1598) * (cilindraje - 1598) if modelo == 2016
         replace min_CO2eq_ton = 0.0002589 + (0.0002589 / 1600) * (cilindraje - 1600) if modelo == 2016
         replace min_CO2eq_ton = 0.0002965 + (0.0002965 / 1998) * (cilindraje - 1998) if modelo == 2016
         replace min_CO2eq_ton = 0.0004355 + (0.0004355 / 1796) * (cilindraje - 1796) if modelo == 2016
@@ -51,7 +51,7 @@
         gen mean_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace max_CO2eq_ton = 0.000302433 + (0.000302433 / 1598) * (cilindraje - 1598) if modelo == 2016
+        replace mean_CO2eq_ton = 0.000302433 + (0.000302433 / 1598) * (cilindraje - 1598) if modelo == 2016
         replace mean_CO2eq_ton = 0.000267 + (0.000267 / 1600) * (cilindraje - 1600) if modelo == 2016
         replace mean_CO2eq_ton = 0.000306 + (0.000306 / 1998) * (cilindraje - 1998) if modelo == 2016
         replace mean_CO2eq_ton = 0.0004593 + (0.0004593 / 1796) * (cilindraje - 1796) if modelo == 2016
@@ -69,7 +69,7 @@
         gen max_CO2eq_ton = .
 
         * valores proporcionales minimo
-        replace min_CO2eq_ton = 0.0003559 + (0.0003559 / 1598) * (cilindraje - 1598) if modelo == 2016  
+        replace max_CO2eq_ton = 0.0003559 + (0.0003559 / 1598) * (cilindraje - 1598) if modelo == 2016  
         replace max_CO2eq_ton = 0.0002691 + (0.0002691 / 1600) * (cilindraje - 1600) if modelo == 2016
         replace max_CO2eq_ton = 0.0003163 + (0.0003163 / 1998) * (cilindraje - 1998) if modelo == 2016
         replace max_CO2eq_ton = 0.0004817 + (0.0004817 / 1796) * (cilindraje - 1796) if modelo == 2016
@@ -99,7 +99,7 @@
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2016.xlsx", replace firstrow(variables)
+//    export excel using "$excel/Datos_tratados/excel/lineabase2016.xlsx", replace firstrow(variables)
 
 **# Guardar
 

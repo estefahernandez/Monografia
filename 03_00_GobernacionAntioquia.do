@@ -69,9 +69,6 @@
     *restricción
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
 
-    * Eliminar variables
-    drop capacidad vigencia estado_agrupado combustible uso
-
 
 **# Valor del vehículo presunto
 

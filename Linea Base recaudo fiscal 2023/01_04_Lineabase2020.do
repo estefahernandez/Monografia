@@ -80,13 +80,13 @@
 
 **# Precio CO2
 
-    gen precio_CO2_gramos = .
-    replace precio_CO2_gramos = 23394.60
-    label variable precio_CO2_gramos "Precio x toneladas"
+    gen precio_CO2eq_ton = .
+    replace precio_CO2eq_ton = 23394.60
+    label variable precio_CO2eq_ton "Precio x toneladas"
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2020.xlsx", replace firstrow(variables)
+//    export excel using "$excel/Datos_tratados/excel/lineabase2020.xlsx", replace firstrow(variables)
 
 **# Guardar
 

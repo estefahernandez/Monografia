@@ -84,7 +84,7 @@
 
 **# Exportación a excel
 
-   export excel using "$excel/Datos_tratados/excel/lineabase2022.xlsx", replace firstrow(variables)
+//    export excel using "$excel/Datos_tratados/excel/lineabase2022.xlsx", replace firstrow(variables)
 
 **# Guardar
 
