@@ -10,7 +10,7 @@
 
 **# Tasa de intervención
 
-import excel "/Users/estefania/Downloads/tasa_intervencion_historica.xlsx", sheet("Sheet1") firstrow
+import excel "/Users/estefania/Downloads/tasa_intervencion_historica.xlsx", sheet("Sheet1") firstrow clear
 
 * Primero, asegurémonos de que la variable fecha esté en formato de fecha
 gen fecha_num = date(Fechaddmmaaaa, "DMY") // Adaptar el formato de la fecha según corresponda
@@ -25,6 +25,14 @@ sort year month fecha_num
 
 * Mantener solo la primera observación de cada mes y año
 by year month: keep if _n == 1
+
+drop if year < 2003
+
+drop year month Fechaddmmaaaa
+rename fecha_num fecha
+
+order fecha, first
+
 
     * Guardar
 
@@ -72,6 +80,8 @@ drop mes
 * Asegurarse de que año es numérico
 destring año, replace
 
+drop if año < 2003
+
 * Crear una variable de fecha a partir de año y mes, usando el primer día del mes
 gen año_str = string(año, "%04.0f")
 gen mes_str = string(mes_num, "%02.0f")
@@ -84,6 +94,8 @@ format fecha %td
 sort fecha
 
 drop año dia mes_num año_str mes_str dia_str fecha_str
+
+order fecha, first
 
     * Guardar
 
@@ -125,4 +137,57 @@ format fecha %td
 * Ordenar los datos por fecha
 sort fecha
 
-* Ahora tienes una base de datos en formato largo con panel
+drop fecha_str dia_str mes_str año_str dia mes_num mes año
+drop if missing(ipc)
+
+order fecha, first
+
+    * Guardar
+
+    save "$datacl/indice_ipc.dta", replace
+
+**# Unión de Datos
+
+* Cargar el primer dataset
+use "$datacl/indice_ipc.dta", clear
+
+* Realizar el merge con el segundo dataset
+merge 1:1 fecha using "$datacl/indice_pp.dta"
+
+drop if missing(OfertaInterna)
+
+drop _merge
+
+    * Guardar
+
+    save "$datacl/inflacion.dta", replace
+
+* Cargar el segundo dataset
+use "$datacl/inflacion.dta", clear
+
+* Realizar el merge con el segundo dataset
+merge 1:1 fecha using "$datacl/tasa_intenvencion.dta"
+
+drop if _merge == 2 | _merge == 1
+
+drop _merge
+
+    save "$datacl/inflacion.dta", replace
+
+
+**# Modelo ARIMA
+
+use "$datacl/inflacion.dta", clear
+
+** Paso 1: Preparar los Datos
+tsset fecha
+
+** Paso 2: Revisión Gráfica de las Series
+
+tsline ipc OfertaInterna Tasadeintervencióndepolítica
+
+** Paso 3: Estacionariedad
+
+dfuller ipc, trend regress lags(12)
+dfuller OfertaInterna, lags(12)
+dfuller Tasadeintervencióndepolítica, lags(12)
