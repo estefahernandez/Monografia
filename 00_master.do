@@ -13,6 +13,7 @@
     global datacl "$ruta/Data_clean"
     global excel "/Users/estefania/Library/CloudStorage/OneDrive-UniversidaddeAntioquia/Monografia-tesis"
     global mdo "/Users/estefania/Documents/Monografia/Do/Monografia"
+    global figuras "$ruta/Result/Figuras"
 
 **# Linea base
 

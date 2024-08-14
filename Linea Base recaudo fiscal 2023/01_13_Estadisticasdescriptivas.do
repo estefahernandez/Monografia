@@ -8,7 +8,7 @@
 
     use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
 
-**# Figura: Evolución del parque automotor 2023
+**# ---------- Figura: Evolución del parque automotor 2023 por fecha de matricula
 
 ** Agrupar la variable Clase
 
@@ -25,25 +25,119 @@ replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO")
 ** Variable panel
 encode clase_agrupada , gen(clase_n)
 
-// ** Modificar la fecha por meses 
-// gen month_matricula = mofd(fecha_matricula)
-// format month_matricula %tm
+preserve
 
-** Modelo
-gen month_matricula = year(modelo)
-format month_matricula %ty
+    ** Modificar la fecha por meses 
+    gen month_matricula = mofd(fecha_matricula)
+    format month_matricula %tm
 
-* Crear una variable de conteo
-gen count = 1
+    * Crear una variable de conteo
+    gen count_matricula = 1
 
-// ** Collapsar la información
-// collapse (sum) count, by(month_matricula  clase_n)
-collapse (sum) count, by(month_matricula  clase_n)
-** Volver Panel la base de datos
-xtset clase_n month_matricula 
+    ** Collapsar la información
+    collapse (sum) count_matricula, by(month_matricula  clase_n)
 
-xtline count if inrange(month_matricula,ym(2000,1), ym(2024,12)) , overlay ///
-legend(on rows(1) pos(6) size(small)) ///
-ylabel()
+    ** Volver Panel la base de datos
+    xtset clase_n month_matricula 
+
+    * Generar la gráfica
+    xtline count if inrange(month_matricula,ym(2000,1), ym(2023,12)) , overlay ///
+        legend(on rows(1) pos(6) size(small)) ///
+        title("Evolución del Número de Vehículos Matriculados por Año del Modelo (2000-2023)", size(medium) color(black)) ///
+        xtitle("Año del Modelo", size(medium) color(black)) ///
+        ytitle("Número de Vehículos", size(medium) color(black) margin(medium))
+
+    //graph export "${figuras}/vehiculo_matriculas.pdf",  replace
+
+restore
+
+**# ---------- Figura: Evolución del parque automotor 2023 por modelo del vehículo
+
+preserve 
+
+    ** Modelo
+    gen year_modelo = modelo
+    format year_modelo %ty
+
+    * Crear una variable de conteo
+    gen count_modelo = 1
+
+    ** Collapsar la información
+    collapse (sum) count_modelo, by(year_modelo  clase_n)
+
+    ** Volver Panel la base de datos
+    xtset clase_n year_modelo
+
+    * Generar la gráfica
+    xtline count if inrange(year_modelo, 2000, 2023) , overlay ///
+        legend(on rows(1) pos(6) size(small)) ///
+        title("Evolución del Número de Vehículos Matriculados por Año del Modelo (2000-2023)", size(medium) color(black)) ///
+        xtitle("Año del Modelo", size(medium) color(black)) ///
+        ytitle("Número de Vehículos", size(medium) color(black) margin(medium))
+
+    //graph export "${figuras}/vehiculo_modelo.pdf",  replace
+
+restore
+
+**# ---------- Figura: Combustible
+
+use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
+
+gen combustible_agrupada = ""
+replace combustible_agrupada = "Eletricos" if combustible == "ELECTRICO" 
+replace combustible_agrupada = "Gasolina" if combustible == "GASOLINA" 
+replace combustible_agrupada = "Hibrido" if combustible == "GASOLINA & ELECTRICO" 
+
+** Variable panel
+encode combustible_agrupada , gen(combustible_n)
+
+    ** Modelo
+    gen year_modelo = modelo
+    format year_modelo %ty
+
+    * Crear una variable de conteo
+    gen count_modelo = 1
+
+    ** Collapsar la información
+    collapse (sum) count_modelo, by(year_modelo  combustible_n)
+
+    ** Volver Panel la base de datos
+    xtset combustible_n year_modelo
+
+    * Generar la gráfica
+    xtline count if inrange(year_modelo, 2006, 2023) , overlay ///
+        legend(on rows(1) pos(6) size(small)) ///
+        title("Evolución tipo de combustible (2000-2023)", size(medium) color(black)) ///
+        xtitle("Año por Matricula", size(medium) color(black)) ///
+        ytitle("Número de Vehículos", size(medium) color(black) margin(medium))
+
+    //graph export "${figuras}/vehiculo_matriculas.pdf",  replace
+
+restore
+
+
+**# ---------- Figura: Distribución entre Marca y modelo
+
+
+use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
+
+    ** Variable panel
+    encode marca , gen(marca_n)
+
+    * Crear una variable de conteo
+    gen count_marca = 1
+
+    ** Collapsar la información
+     collapse (sum) count_marca, by(marca)
+
+
+* Crear un gráfico de barras horizontal
+graph hbar (sum) count_marca, over(marca) nofill
+
+
+
+**# ---------- Figura: Recaudo hace 10 años
+
+
 
 
