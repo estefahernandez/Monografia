@@ -8,7 +8,7 @@
 ** Organizo por año el formato de la fecha de matricula y pago de impuesto
 ** Establecer por medio de las ordenanzas las fechas por año donde se da los descuento
 *       y sanciones, ademas solo tendremos como restriccion los que pagaron la obligacion
-*
+** Se realizo un append con los 10 recaudos
 *-------------------------------------------------------------------
 
 
@@ -19,8 +19,8 @@
 
 import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2014.csv", clear
 
-** Formato
-    destring impuesto, replace force
+** Convertir la variable 'impuesto' a numérica
+destring impuesto, replace force
 
 ** Organizar fechas 
 
@@ -43,18 +43,18 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
     sort fecha_matricula
 
-** Estado de pago por parte de los propietarios año 2014
+* Estado de pago por parte de los propietarios año 2014
+gen estado_pago = ""
 
-    gen estado_pago = .
-    replace estado_pago = "Descuento" if fecha_pago >= date("01jan2014", "DMY") & fecha_pago <= date("01apr2014", "DMY")
-    replace estado_pago = "Sin Descuento" if fecha_pago >= date("02apr2014", "DMY") & fecha_pago <= date("18jul2014", "DMY")
-    replace estado_pago = "Sancion Minima" if fecha_pago >= date("19jul2014", "DMY")
-    label variable estado_pago "ESTADO DE PAGO"
+replace estado_pago = "Descuento" if fecha_pago >= date("01jan2014", "DMY") & fecha_pago <= date("01apr2014", "DMY")
+replace estado_pago = "Sin Descuento" if fecha_pago >= date("02apr2014", "DMY") & fecha_pago <= date("18jul2014", "DMY")
+replace estado_pago = "Sancion Minima" if fecha_pago >= date("19jul2014", "DMY")
+label variable estado_pago "ESTADO DE PAGO"
 
-    order fecha_pago, before(impuesto)
+order fecha_pago, before(impuesto)
 
-    *restricción
-    keep if estado_agrupado == "PAGO DE LA OBLIGACION"
+* Restricción
+keep if estado_agrupado == "PAGO DE LA OBLIGACION"
 
 
 save "$datacl/recaudo_ano_fiscal_2014", replace
@@ -89,11 +89,13 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2015
 
-    gen estado_pago = .
+    gen estado_pago = ""
+
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2015", "DMY") & fecha_pago <= date("20mar2015", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("21mar2015", "DMY") & fecha_pago <= date("17jul2015", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("18jul2015", "DMY")
     label variable estado_pago "ESTADO DE PAGO"
+
 
     order fecha_pago, before(impuesto)
 
@@ -132,7 +134,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2016
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2016", "DMY") & fecha_pago <= date("29apr2016", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("30apr2016", "DMY") & fecha_pago <= date("15jul2016", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("16jul2016", "DMY")
@@ -174,7 +176,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2017
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2017", "DMY") & fecha_pago <= date("17mar2017", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("18mar2017", "DMY") & fecha_pago <= date("14jul2017", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("15jul2016", "DMY")
@@ -217,7 +219,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2018
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2018", "DMY") & fecha_pago <= date("16mar2018", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("17mar2018", "DMY") & fecha_pago <= date("13jul2018", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("14jul2018", "DMY")
@@ -260,7 +262,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2019
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2019", "DMY") & fecha_pago <= date("22mar2019", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("23mar2019", "DMY") & fecha_pago <= date("19jul2019", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("20jul2019", "DMY")
@@ -304,7 +306,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2020
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2020", "DMY") & fecha_pago <= date("20mar2020", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("21mar2020", "DMY") & fecha_pago <= date("17jul2020", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("18jul2020", "DMY")
@@ -347,7 +349,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2021
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2021", "DMY") & fecha_pago <= date("16apr2021", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("17apr2021", "DMY") & fecha_pago <= date("18jul2021", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("19jul2021", "DMY")
@@ -390,7 +392,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 ** Estado de pago por parte de los propietarios año 2022
 
-    gen estado_pago = .
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2022", "DMY") & fecha_pago <= date("30apr2022", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("01may2022", "DMY") & fecha_pago <= date("18jul2022", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("19jul2022", "DMY")
@@ -445,3 +447,20 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
     keep if estado_agrupado == "PAGO DE LA OBLIGACION"
 
 save "$datacl/recaudo_ano_fiscal_2023", replace
+
+
+**# ---------- Unión de base de datos los 10 años del recaudo
+
+use "$datacl/recaudo_ano_fiscal_2014", clear
+
+append using "$datacl/recaudo_ano_fiscal_2015"
+append using "$datacl/recaudo_ano_fiscal_2016"
+append using "$datacl/recaudo_ano_fiscal_2017"
+append using "$datacl/recaudo_ano_fiscal_2018"
+append using "$datacl/recaudo_ano_fiscal_2019"
+append using "$datacl/recaudo_ano_fiscal_2020"
+append using "$datacl/recaudo_ano_fiscal_2021"
+append using "$datacl/recaudo_ano_fiscal_2022"
+append using "$datacl/recaudo_ano_fiscal_2023"
+
+save "$datacl/recaudo_total_agregado", replace
