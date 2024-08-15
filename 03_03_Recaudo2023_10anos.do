@@ -12,9 +12,6 @@
 *-------------------------------------------------------------------
 
 
-
-
-
 **# ---------- Importación recaudo 2014
 
 import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fiscal_2014.csv", clear
