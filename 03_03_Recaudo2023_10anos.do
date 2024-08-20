@@ -432,7 +432,7 @@ import delimited "$ruta/Data_master/Parque_automotor_impuesto_vehicular_año_fi
 
 **# Estado de pago por parte de los propietarios año 2023
 
-    gen estado_pago_2023 = "."
+    gen estado_pago = "."
     replace estado_pago = "Descuento" if fecha_pago >= date("01jan2023", "DMY") & fecha_pago <= date("21apr2023", "DMY")
     replace estado_pago = "Sin Descuento" if fecha_pago >= date("22apr2023", "DMY") & fecha_pago <= date("21jul2023", "DMY")
     replace estado_pago = "Sancion Minima" if fecha_pago >= date("22jul2023", "DMY")
