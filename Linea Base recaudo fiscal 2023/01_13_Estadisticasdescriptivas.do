@@ -7,203 +7,206 @@
 
 **# ---------- Figura: Evolución del parque automotor 2023 por fecha de matricula
 
-    * Datos
-    use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
+    ***** Figura: Parque automotor por clase agrupada
 
-    ** Agrupar la variable Clase
-    gen clase_agrupada = ""
-
-    replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
-    replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
-    replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
-    replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
-    replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
-    replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
-    // replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO")
-
-    * Variable panel
-    encode clase_agrupada , gen(clase_n)
-
-    * Modificar la fecha por meses 
-    gen month_matricula = mofd(fecha_matricula)
-    format month_matricula %tm
-
-    * Crear una variable de conteo
-    gen count_matricula = 1
-
-    ** Collapsar la información
-    collapse (sum) count_matricula, by(month_matricula  clase_n)
-
-    ** Volver Panel la base de datos
-    xtset clase_n month_matricula 
-
-        xtline count if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
-        legend(on rows(1) pos(12) size(small) col(1)) ///
-        title("", size(medium) color(black)) ///
-        xtitle("Año", size(small)  color(black)) ///
-        ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
-        xlabel(, format(%tmCCYY-NN) labsize(small)) ///
-        ylabel(, format(%9.0gc) labsize(small)) ///
-        plot1opts(lcolor(cyan)) ///
-        plot2opts(lcolor(orange)) ///
-        plot3opts(lcolor(pink))
-
-
-    //graph export "${figuras}/vehiculo_matriculas.pdf",  replace
-
-
-    **** Figura: Grupo 1  --> Camion, Bus, Campero
-
-    * Filtrar los datos para cada grupo
-    preserve
-
-    use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
-
-    ** Agrupar la variable Clase
-    gen clase_agrupada = ""
-
-    replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
-    replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
-    replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
-    replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
-    replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
-    replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
-
-    * Variable panel
-    encode clase_agrupada , gen(clase_n)
-    
-    keep if clase_n == 2 | clase_n == 3 | clase_n == 5
-
-    * Modificar la fecha por meses 
-    gen month_matricula = mofd(fecha_matricula)
-    format month_matricula %tm
-
-    * Crear una variable de conteo
-    gen count_matricula = 1
-
-    ** Collapsar la información
-    collapse (sum) count_matricula, by(month_matricula  clase_n)
-
-    ** Volver Panel la base de datos
-    xtset clase_n month_matricula 
-
-    ** Graficar el Grupo 1
-    xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
-        legend(on rows(1) pos(12) size(small) col(1)) ///
-        title("Grupo 1: Camión, Bus, Campero", size(medium) color(black)) ///
-        xtitle("Año", size(small)  color(black)) ///
-        ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
-        xlabel(, format(%tmCCYY-NN) labsize(small)) ///
-        ylabel(, format(%9.0gc) labsize(small)) ///
-        plot1opts(lcolor(cyan)) ///
-        plot2opts(lcolor(orange)) ///
-        plot3opts(lcolor(pink))
-
-    restore
-
-
-    **** Figura: Grupo 2  --> Automovil, Camioneta, Motocicleta
-
-    * Filtrar los datos para cada grupo
-    preserve
-    
+        * Datos
         use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
 
-    ** Agrupar la variable Clase
-    gen clase_agrupada = ""
+        ** Agrupar la variable Clase
+        gen clase_agrupada = ""
 
-    replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
-    replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
-    replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
-    replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
-    replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
-    replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
+        replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+        replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
+        replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
+        replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
+        replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+        replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
+        // replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO")
 
-    * Variable panel
-    encode clase_agrupada , gen(clase_n)
+        * Variable panel
+        encode clase_agrupada , gen(clase_n)
 
-    keep if clase_n == 1 | clase_n == 4 | clase_n == 6
+        * Modificar la fecha por meses 
+        gen month_matricula = mofd(fecha_matricula)
+        format month_matricula %tm
 
-    * Modificar la fecha por meses 
-    gen month_matricula = mofd(fecha_matricula)
-    format month_matricula %tm
+        * Crear una variable de conteo
+        gen count_matricula = 1
 
-    * Crear una variable de conteo
-    gen count_matricula = 1
+        ** Collapsar la información
+        collapse (sum) count_matricula, by(month_matricula  clase_n)
 
-    ** Collapsar la información
-    collapse (sum) count_matricula, by(month_matricula  clase_n)
+        ** Volver Panel la base de datos
+        xtset clase_n month_matricula 
 
-    ** Volver Panel la base de datos
-    xtset clase_n month_matricula 
-
-    ** Graficar el Grupo 1
-    xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
-        legend(on rows(1) pos(12) size(small) col(1)) ///
-        title("Grupo 1: Automovil, Camioneta, Motocicleta", size(medium) color(black)) ///
-        xtitle("Año", size(small)  color(black)) ///
-        ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
-        xlabel(, format(%tmCCYY-NN) labsize(small)) ///
-        ylabel(, format(%9.0gc) labsize(small)) ///
-        plot1opts(lcolor(purple)) ///
-        plot2opts(lcolor(orange red)) ///
-        plot3opts(lcolor(ebblue)) ///
-        yscale(range(0 .))   // Esta línea asegura que el eje y comienza en 0
-
-    restore
+            xtline count if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
+            legend(on rows(1) pos(12) size(small) col(1)) ///
+            title("", size(medium) color(black)) ///
+            xtitle("Año", size(small)  color(black)) ///
+            ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
+            xlabel(, format(%tmCCYY-NN) labsize(small)) ///
+            ylabel(, format(%9.0gc) labsize(small)) ///
+            plot1opts(lcolor(cyan)) ///
+            plot2opts(lcolor(orange)) ///
+            plot3opts(lcolor(pink))
 
 
-    **** Figura: Grupo 3  --> Automovil, Camioneta, Motocicleta, otros: Camion, Bus, Campero
-
-    * Filtrar los datos para cada grupo
-    preserve
-    
-        use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
-
-    ** Agrupar la variable Clase
-    gen clase_agrupada = ""
-
-    replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
-    replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
-    replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
-    replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO", "BUS", "BUS ELECTRICO", "BUSETA") ///
-    | inlist(clase, "MICRO BUS", "CAMION", "TRACTO-CAMION", "VOLQUETA") ///
-    | inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+        //graph export "${figuras}/vehiculo_matriculas.pdf",  replace
 
 
-    * Variable panel
-    encode clase_agrupada , gen(clase_n)
+    ***** Figura: Parque automotor  --> Camion, Bus, Campero
 
-    * Modificar la fecha por meses 
-    gen month_matricula = mofd(fecha_matricula)
-    format month_matricula %tm
+        * Filtrar los datos para cada grupo
+        preserve
 
-    * Crear una variable de conteo
-    gen count_matricula = 1
+            use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
 
-    ** Collapsar la información
-    collapse (sum) count_matricula, by(month_matricula  clase_n)
+            ** Agrupar la variable Clase
+            gen clase_agrupada = ""
 
-    ** Volver Panel la base de datos
-    xtset clase_n month_matricula 
+            replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+            replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
+            replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
+            replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
+            replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+            replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
 
-    ** Graficar el Grupo 1
-    xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
-        legend(on rows(1) pos(12) size(small) col(1)) ///
-        title("Grupo 1: Automovil, Camioneta, Motocicleta", size(medium) color(black)) ///
-        xtitle("Año", size(small)  color(black)) ///
-        ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
-        xlabel(, format(%tmCCYY-NN) labsize(small)) ///
-        ylabel(, format(%9.0gc) labsize(small)) ///
-        plot1opts(lcolor(purple)) ///
-        plot2opts(lcolor(orange red)) ///
-        plot3opts(lcolor(ebblue)) ///
-        plot4opts(lcolor(pink)) ///
+            * Variable panel
+            encode clase_agrupada , gen(clase_n)
+            
+            keep if clase_n == 2 | clase_n == 3 | clase_n == 5
+
+            * Modificar la fecha por meses 
+            gen month_matricula = mofd(fecha_matricula)
+            format month_matricula %tm
+
+            * Crear una variable de conteo
+            gen count_matricula = 1
+
+            ** Collapsar la información
+            collapse (sum) count_matricula, by(month_matricula  clase_n)
+
+            ** Volver Panel la base de datos
+            xtset clase_n month_matricula 
+
+            ** Graficar el Grupo 1
+            xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
+                legend(on rows(1) pos(12) size(small) col(1)) ///
+                title("Grupo 1: Camión, Bus, Campero", size(medium) color(black)) ///
+                xtitle("Año", size(small)  color(black)) ///
+                ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
+                xlabel(, format(%tmCCYY-NN) labsize(small)) ///
+                ylabel(, format(%9.0gc) labsize(small)) ///
+                plot1opts(lcolor(cyan)) ///
+                plot2opts(lcolor(orange)) ///
+                plot3opts(lcolor(pink))
+
+        restore
 
 
-    restore
+    ***** Figura: Parque automotor  --> Automovil, Camioneta, Motocicleta
 
-    *** Matricula por años
+        * Filtrar los datos para cada grupo
+        preserve
+        
+            use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
+
+            ** Agrupar la variable Clase
+            gen clase_agrupada = ""
+
+            replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+            replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
+            replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
+            replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
+            replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+            replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
+
+            * Variable panel
+            encode clase_agrupada , gen(clase_n)
+
+            keep if clase_n == 1 | clase_n == 4 | clase_n == 6
+
+            * Modificar la fecha por meses 
+            gen month_matricula = mofd(fecha_matricula)
+            format month_matricula %tm
+
+            * Crear una variable de conteo
+            gen count_matricula = 1
+
+            ** Collapsar la información
+            collapse (sum) count_matricula, by(month_matricula  clase_n)
+
+            ** Volver Panel la base de datos
+            xtset clase_n month_matricula 
+
+            ** Graficar el Grupo 1
+            xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
+                legend(on rows(1) pos(12) size(small) col(1)) ///
+                title("Grupo 1: Automovil, Camioneta, Motocicleta", size(medium) color(black)) ///
+                xtitle("Año", size(small)  color(black)) ///
+                ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
+                xlabel(, format(%tmCCYY-NN) labsize(small)) ///
+                ylabel(, format(%9.0gc) labsize(small)) ///
+                plot1opts(lcolor(purple)) ///
+                plot2opts(lcolor(orange red)) ///
+                plot3opts(lcolor(ebblue)) ///
+                yscale(range(0 .))   // Esta línea asegura que el eje y comienza en 0
+
+        restore
+
+
+    ***** Figura: Parque automotor  --> Automovil, Camioneta, Motocicleta, otros: Camion, Bus, Campero
+
+        * Filtrar los datos para cada grupo
+        preserve
+        
+            use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
+
+            ** Agrupar la variable Clase
+            gen clase_agrupada = ""
+
+            replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+            replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
+            replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
+            replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO", "BUS", "BUS ELECTRICO", "BUSETA") ///
+            | inlist(clase, "MICRO BUS", "CAMION", "TRACTO-CAMION", "VOLQUETA") ///
+            | inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+
+
+            * Variable panel
+            encode clase_agrupada , gen(clase_n)
+
+            * Modificar la fecha por meses 
+            gen month_matricula = mofd(fecha_matricula)
+            format month_matricula %tm
+
+            * Crear una variable de conteo
+            gen count_matricula = 1
+
+            ** Collapsar la información
+            collapse (sum) count_matricula, by(month_matricula  clase_n)
+
+            ** Volver Panel la base de datos
+            xtset clase_n month_matricula 
+
+            ** Graficar el Grupo 1
+            xtline count_matricula if inrange(month_matricula, ym(2000,1), ym(2023,12)), overlay ///
+                legend(on rows(1) pos(12) size(small) col(1)) ///
+                title("", size(small) color(black)) ///
+                xtitle("Año", size(small)  color(black)) ///
+                ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
+                xlabel(, format(%tmCCYY-NN) labsize(small)) ///
+                ylabel(, format(%9.0gc) labsize(small)) ///
+                plot1opts(lcolor(purple)) ///
+                plot2opts(lcolor(orange red)) ///
+                plot3opts(lcolor(ebblue)) ///
+                yscale(range(0 .))
+
+                graph export "${figuras}/matricula_vehiculo2.pdf",  replace
+
+        restore
+
+    ***** Figura: Parque automotor por año
 
         ** Modificar la fecha por año
         gen ano_matricula = yofd(fecha_matricula)
@@ -256,15 +259,6 @@
     xtset clase_n year_modelo
 
     * Generar la gráfica
-/*
-    xtline count if inrange(year_modelo, 2000, 2023) , overlay ///
-        legend(on rows(1) pos(6) size(small)) ///
-        title("", size(medium) color(black)) ///
-        xtitle("Año del Modelo", size(medium) color(black)) ///
-        ytitle("Número de Vehículos", size(medium) color(black) margin(medium))
-
-*/
-
     xtline count if inrange(year_modelo, 2000, 2023), overlay ///
         legend(on rows(1) pos(12) size(small) col(1)) ///
         title("", size(medium) color(black)) ///
@@ -288,6 +282,21 @@
 
     use "$datacl/Parque_automotor_impuesto_vehicular_año_fiscal_2023.dta", clear
 
+        ** Agrupar la variable Clase
+    gen clase_agrupada = ""
+
+    replace clase_agrupada = "Automovil" if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+    replace clase_agrupada = "Bus" if inlist(clase, "BUS", "BUS ELECTRICO", "BUSETA", "MICRO BUS")
+    replace clase_agrupada = "Camion" if inlist(clase, "CAMION", "TRACTO-CAMION", "VOLQUETA")
+    replace clase_agrupada = "Camioneta" if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
+    replace clase_agrupada = "Campero" if inlist(clase, "CAMPERO", "CAMPERO HIBRIDO")
+    replace clase_agrupada = "Motocicleta" if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
+    // replace clase_agrupada = "Otro" if inlist(clase, "CUADRICICLO", "MOTOCARRO")
+
+    * Variable panel
+    encode clase_agrupada , gen(clase_n)
+    keep if clase_n == 1
+
     gen combustible_agrupada = ""
     replace combustible_agrupada = "Eletricos" if combustible == "ELECTRICO" 
     replace combustible_agrupada = "Gasolina" if combustible == "GASOLINA" 
@@ -297,6 +306,9 @@
 
     ** panel
     encode combustible_agrupada , gen(combustible_n)
+
+            // gen ano_matricula = yofd(fecha_matricula)
+            // format ano_matricula %ty
 
     ** Modificar la fecha por meses 
     gen month_matricula = mofd(fecha_matricula)
@@ -311,14 +323,9 @@
     ** Volver Panel la base de datos
     xtset combustible_n month_matricula 
 
-    export excel using "$excel/Datos_tratados/excel/combustible.xlsx", replace firstrow(variables)
-
-    twoway line combustible_n == 1 month_matricula, title("", size(medium) color(black)) || line combustible_n == 2 month_matricula, yaxis (2) title("", size(medium) color(black)) 
-
     * Generar la gráfica
-    xtline count if inrange(month_matricula, ym(2015,1), ym(2023,12)), overlay ///
-        legend(on rows(1) pos(12) size(small) col(1) ring(0) label(1 "Eléctrico") ///
-            label(2 "Gasolina") label(3 "Híbrido")) ///
+    xtline count_matricula if inrange(month_matricula, ym(2015,1), ym(2023,12)), overlay ///
+        legend(on rows(1) pos(12) size(small) col(1) ring(0)) ///
         title("", size(medium) color(black)) ///
         xtitle("Año", size(small)  color(black)) ///
         ytitle("Número de Vehículos", size(small) color(black) margin(small)) ///
@@ -328,26 +335,164 @@
         plot2opts(lcolor(orange)) ///
         plot3opts(lcolor(pink))
 
-    graph export "${figuras}/Combustible_matricula.pdf",  replace
+    //graph export "${figuras}/Combustible_matricula2.pdf",  replace
 
 
 **# ---------- Figura: Recaudo hace 10 años
 
-use "$datacl/recaudo_total_agregado", clear
+    ** Figura: Mensual
 
-** Variable panel
-encode estado_pago , gen(estadopago_n)
+        use "$datacl/recaudo_total_agregado", clear
 
-* Vigencia
-gen periodo = vigencia
-format periodo %ty
+        * Convertir 'estado_pago' en una variable numérica
+        encode estado_pago, gen(estadopago_n)
 
-* Colapsar los datos por vigencia 
-collapse (sum) impuesto, by(periodo estadopago_n)
+        * Crear la variable de fecha mensual basada en 'fecha_pago'
+        gen month_impuesto = mofd(fecha_pago)
+        format month_impuesto %tm
+
+        * Colapsar los datos sumando 'impuesto' por mes y estado de pago
+        collapse (sum) impuesto, by(month_impuesto estadopago_n)
+
+        * Eliminar observaciones con valores faltantes en 'estadopago_n'
+        drop if missing(estadopago_n)
+
+        * Formatear la variable 'impuesto' para que esté en millones de pesos
+        gen impuesto_n = impuesto / 1000000
+
+        * Configurar los datos en formato panel (serie temporal)
+        xtset month_impuesto estadopago_n
+
+        * Generar la gráfica con 'twoway line'
+        twoway (line impuesto_n month_impuesto if estadopago_n == 1, lcolor(cyan)) ///
+            (line impuesto_n month_impuesto if estadopago_n == 2, lcolor(orange)) ///
+            (line impuesto_n month_impuesto if estadopago_n == 3, lcolor(pink)), ///
+            legend(label(1 "Descuento") label(2 "Sin Descuento") label(3 "Sanción") pos(3) col(1)) ///
+            title("Evolución Mensual del Recaudo del Impuesto por Estado de Pago") ///
+            xtitle("Fecha (Año-Mes)") ytitle("Recaudo del Impuesto (Millones de Pesos)") ///
+            xlabel(, format(%tmCCYY-NN) labsize(small)) ///
+            ylabel(, format(%9.0gc) labsize(small))
+
+    
+
+    ** Figura fecha de pago por año
+
+        use "$datacl/recaudo_total_agregado", clear
+
+            *Variable panel
+            encode estado_pago , gen(estadopago_n)
+
+            * Fecha por año
+            gen year_modelo = yofd(fecha_pago)
+            format year_modelo %ty
+
+            * Colapsar los datos por vigencia 
+            collapse (sum) impuesto, by(year_modelo estadopago_n)
+
+            drop if missing(estadopago_n)
+
+            format impuesto %12.0fc
+
+            gen impuesto_n = impuesto/1000000
+
+            ** Volver Panel la base de datos
+            xtset year_modelo estadopago_n 
+
+            * Generar la gráfica
+            twoway (line impuesto_n year_modelo if estadopago_n == 1, lcolor(cyan)) ///
+                (line impuesto_n year_modelo if estadopago_n == 2, lcolor(orange)) ///
+                (line impuesto_n year_modelo if estadopago_n == 3, lcolor(pink)), ///
+                legend(label(1 "Descuento") label(2 "Sin Descuento") label(3 "Sanción") pos(3)  col(1)) ///
+                title("") ///
+                xtitle("Año") ytitle("Recaudo del Impuesto (Millones de Pesos)") ///
+                xlabel(2014(1)2023, labsize(small)) ///
+                ylabel(, format(%9.0gc)  labsize(small))
+
+    ** Figura Vigencia
+
+            use "$datacl/recaudo_total_agregado", clear
+
+            *Variable panel
+            encode estado_pago , gen(estadopago_n)
+
+            * Vigencia
+            gen periodo = vigencia
+            format periodo %ty
+
+            * Colapsar los datos por vigencia 
+            collapse (sum) impuesto, by(periodo estadopago_n)
+
+            drop if missing(estadopago_n)
+
+            format impuesto %12.0fc
+
+            gen impuesto_n = impuesto/1000000
+
+            ** Volver Panel la base de datos
+            xtset periodo estadopago_n 
+
+            * Generar la gráfica
+            twoway (line impuesto_n periodo if estadopago_n == 1, lcolor(cyan)) ///
+                (line impuesto_n periodo if estadopago_n == 2, lcolor(orange)) ///
+                (line impuesto_n periodo if estadopago_n == 3, lcolor(pink)), ///
+                legend(label(1 "Descuento") label(2 "Sin Descuento") label(3 "Sanción") pos(3)  col(1)) ///
+                title("") ///
+                xtitle("Año") ytitle("Recaudo del Impuesto (Millones de Pesos)") ///
+                xlabel(2014(1)2023, labsize(small)) ///
+                ylabel(, format(%9.0gc)  labsize(small))
+
+
+    ** Figura Recaudo total
+
+            use "$datacl/recaudo_total_agregado", clear
+
+            * Crear una variable de conteo
+            gen count_matricula = 1
+
+            * Colapsar los datos por vigencia 
+            collapse (sum) count_matricula, by(impuesto fecha_pago)
+
+            ** Volver Panel la base de datos
+            // xtset periodo  
+
+            twoway (line impuesto fecha_pago)
+
+    ** Recaudo por porcentaje
+
+    use "$datacl/recaudo_total_agregado", clear
+
+        * Convertir 'estado_pago' en una variable numérica
+        encode estado_pago, gen(estadopago_n)
+
+        * Crear la variable de periodo basado en la vigencia
+        gen periodo = vigencia
+        format periodo %ty
+
+        * Colapsar los datos sumando 'impuesto' por vigencia y estado de pago
+        collapse (sum) impuesto, by(periodo estadopago_n)
+
+        * Eliminar observaciones con valores faltantes en 'estadopago_n'
+        drop if missing(estadopago_n)
+
+        * Calcular el total del impuesto recaudado por cada periodo (año)
+        bysort periodo: egen total_impuesto = total(impuesto)
+
+        * Calcular el porcentaje del impuesto por estado de pago
+        gen porcentaje_impuesto = (impuesto / total_impuesto) * 100
+
+        * Formatear el porcentaje
+        format porcentaje_impuesto %9.2f
+
+        * Generar la gráfica mostrando el porcentaje de impuesto recaudado por estado de pago
+        twoway (line porcentaje_impuesto periodo if estadopago_n == 1, lcolor(cyan)) ///
+            (line porcentaje_impuesto periodo if estadopago_n == 2, lcolor(orange)) ///
+            (line porcentaje_impuesto periodo if estadopago_n == 3, lcolor(pink)), ///
+            legend(label(1 "Descuento") label(2 "Sin Descuento") label(3 "Sanción") pos(3) col(1)) ///
+            title("Porcentaje del Recaudo del Impuesto por Estado de Pago (2014-2023)", size(small) color(black)) ///
+            xtitle("Año") ytitle("Porcentaje del Recaudo del Impuesto (%)") ///
+            xlabel(2014(1)2023, labsize(small)) ///
+            ylabel(0(10)100, labsize(small))
 
 
 
-    * Generar la gráfica
-twoway line estadopago_n periodo 
-    line impuesto periodo
 
