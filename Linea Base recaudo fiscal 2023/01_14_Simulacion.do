@@ -127,6 +127,8 @@ format impuesto %12.0fc
 
 
 
+
+
 **# Distribución PERT- Inflación
 
     * Definir parámetros PERT

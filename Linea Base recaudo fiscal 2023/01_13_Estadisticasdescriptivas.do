@@ -510,9 +510,8 @@
         collapse (sum) impuesto, by(periodo estadopago_n)
 
         format impuesto %12.0fc
-        *gen impuesto_millones = impuesto/1000000
-        *drop impuesto
-
+        // gen impuesto_millones = impuesto/1000000
+        // drop impuesto
 
         * Eliminar observaciones con valores faltantes en 'estadopago_n'
         drop if missing(estadopago_n)
@@ -521,31 +520,46 @@
 
         graph bar impuesto_millones,  over(estadopago_n) over(periodo) stack asyvars
 
-graph bar impuesto_millones, over(estadopago_n, gap(10) label(labsize(vsmall))) ///
-    over(periodo, label(angle(45) labsize(vsmall) format(%9.0gc))) ///
-    blabel(bar, position(outside) format(%9.0gc)) ///
-    stack asyvars ///
-    legend(order(1 "Categoria 1" 2 "Categoria 2" 3 "Categoria 3")) ///
-    ytitle("Impuestos Recaudados (en millones)") ///
-    title("") ///
-    bar(1, fcolor(red)) bar(2, fcolor(blue)) bar(3, fcolor(green)) ///
-    plotregion(margin(0 0 0 12))
+        graph bar impuesto_millones, over(estadopago_n, gap(10) label(labsize(vsmall))) ///
+            over(periodo, label(angle(45) labsize(vsmall) format(%9.0gc))) ///
+            blabel(bar, position(outside) format(%9.0gc)) ///
+            stack asyvars ///
+            legend(order(1 "Categoria 1" 2 "Categoria 2" 3 "Categoria 3")) ///
+            ytitle("Impuestos Recaudados (en millones)") ///
+            title("") ///
+            bar(1, fcolor(red)) bar(2, fcolor(blue)) bar(3, fcolor(green)) ///
+            plotregion(margin(0 0 0 12))
 
 
-    graph bar impuesto_millones, over(estadopago_n, gap(10) label(labsize(vsmall))) ///
-    over(periodo, label(angle(45) labsize(vsmall))) ///
-    blabel(bar, position(inside) format(%9.2f)) ///
-    stack asyvars ///
-    legend(order(1 "Categoria 1" 2 "Categoria 2" 3 "Categoria 3")) ///
-    ytitle("Impuestos Recaudados (en millones)") ///
-    title("Impuesto Recaudado por Estado de Pago y Año") ///
-    bar(1, fcolor(red)) bar(2, fcolor(blue)) bar(3, fcolor(green)) ///
-    plotregion(margin(0 0 0 12))
+            graph bar impuesto_millones, over(estadopago_n, gap(10) label(labsize(vsmall))) ///
+            over(periodo, label(angle(45) labsize(vsmall))) ///
+            blabel(bar, position(inside) format(%9.2f)) ///
+            stack asyvars ///
+            legend(order(1 "Categoria 1" 2 "Categoria 2" 3 "Categoria 3")) ///
+            ytitle("Impuestos Recaudados (en millones)") ///
+            title("Impuesto Recaudado por Estado de Pago y Año") ///
+            bar(1, fcolor(red)) bar(2, fcolor(blue)) bar(3, fcolor(green)) ///
+            plotregion(margin(0 0 0 12))
 
 
     ** Grafica en porcentaje
 
-        * Asumiendo que ya tienes 'impuesto_millones' y 'estadopago_n' y 'periodo' adecuadamente definidos
+        use "$datacl/recaudo_total_agregado", clear
+
+        * Convertir 'estado_pago' en una variable numérica
+        encode estado_pago, gen(estadopago_n)
+
+        * Crear la variable de periodo basado en la vigencia
+        gen periodo = vigencia
+        format periodo %ty
+
+        * Colapsar los datos sumando 'impuesto' por vigencia y estado de pago
+        collapse (sum) impuesto, by(periodo estadopago_n)
+
+        *format impuesto %12.0fc
+
+        * Eliminar observaciones con valores faltantes en 'estadopago_n'
+        drop if missing(estadopago_n)
 
         * Calcular el total de impuestos por periodo
         egen total_impuesto_periodo = total(impuesto), by(periodo)
@@ -557,15 +571,37 @@ graph bar impuesto_millones, over(estadopago_n, gap(10) label(labsize(vsmall))) 
         collapse (sum) porcentaje, by(periodo estadopago_n)
 
         ** Grafica porcentaje
-        graph bar porcentaje, over(estadopago_n, gap(10) label(labsize(small))) ///
+        graph bar porcentaje, over(estadopago_n,  label(labsize(small))) ///
             over(periodo, label(angle(0) labsize(small))) ///
             blabel(bar, position(inside) format(%9.1f "%%")) /// Mostrar el porcentaje dentro de las barras
             stack asyvars ///
             legend(order(1 "Descuento" 2 "Sin Descuento" 3 "Sanción") rows(1) position(bottom)) ///
-            ytitle("Porcentaje del Impuesto Recaudado") ///
+            ytitle("Porcentaje del Impuesto Recaudado (%)") ///
             title("") ///
-            bar(1, fcolor(sand) lwidth(none)) bar(2, fcolor(gray) lwidth(none)) bar(3, fcolor(maroon) lwidth(none)) ///
+            bar(1, fcolor("118 152 160") lwidth(none)) bar(2, fcolor(gray) lwidth(none)) bar(3, fcolor(dkorange) lwidth(none)) ///
             plotregion(margin(0 0 0 12)) ///
-            ylabel(, labsize(small))
+            ylabel(, labsize(small)) ///
+            blabel(bar, color(white) position(inside) format(%4.1f))
 
+    graph export "${figuras}/Recaudototal_porcentaje.pdf",  replace
 
+    ** tabla 
+
+        use "$datacl/recaudo_total_agregado", clear
+
+        * Convertir 'estado_pago' en una variable numérica
+        encode estado_pago, gen(estadopago_n)
+
+        * Crear la variable de periodo basado en la vigencia
+        gen periodo = vigencia
+        format periodo %ty
+
+        * Colapsar los datos sumando 'impuesto' por vigencia y estado de pago
+        collapse (sum) impuesto, by(periodo estadopago_n)
+
+        format impuesto %12.0fc
+
+        * Eliminar observaciones con valores faltantes en 'estadopago_n'
+        drop if missing(estadopago_n)
+
+        reshape wide impuesto, i(periodo) j(estadopago_n)
