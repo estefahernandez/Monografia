@@ -4,7 +4,7 @@
 *   Recaudo fiscal 2023
 *   - Modelos de vehículos desde 2011 hasta 2023
 *   - Se genera una distribución PERT para generar la inflación
-*   - 
+*    
 *
 *-------------------------------------------------------------------
 
