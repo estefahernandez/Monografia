@@ -2,8 +2,8 @@
 *-------------------------------------------------------------------
 *
 *   Emisiones vehículos
-*       * Restricciones con respecto a la base de datos
-*       * Supuestos emisiones contaminantes
+*       * Supuestos emisiones contaminantes en toneladas
+*       * Precio al carbon
 *       
 *-------------------------------------------------------------------
 

@@ -10,6 +10,7 @@
 **# Recaudo fiscal 2023 Gobernación de Antioquia
 
     import delimited "$dRaw/Parque_automotor_impuesto_vehicular_año_fiscal_2023.csv", clear
+    save "$dCl/GobA_imp_veh_2023.dta", replace
 
         ** Supuesto 
         keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
