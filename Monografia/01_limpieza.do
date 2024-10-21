@@ -11,6 +11,11 @@
 
     import delimited "$dRaw/Parque_automotor_impuesto_vehicular_año_fiscal_2023.csv", clear
 
+        ** Supuesto 
+        keep if inlist(clase, "AUTOMOVIL", "CAMIONETA(C)", "CAMPERO")
+        keep if uso == "PARTICULAR"
+        keep if inrange(modelo, 2011, 2023) & modelo != 2018 & modelo != 2019
+
         ** ID
         gen random_id = _n 
         egen id = group(marca modelo random_id)
@@ -65,7 +70,11 @@
         replace valor_presunto = impuesto/porcentaje
 
         ** Formato valiables
-        format valor_presunto %12.0fc 
+        format valor_presunto impuesto %12.0fc 
+
+        * Eliminar variables y Cilindrajes erroneos
+        drop capacidad vigencia estado_agrupado combustible uso
+        drop if cilindraje <= 815
 
     compress
     save "$dCl/GobA_recaudo_fiscal_2023.dta", replace
