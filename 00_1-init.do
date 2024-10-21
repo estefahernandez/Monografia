@@ -1,6 +1,6 @@
 
 
-*Initialize work environment
+* Initialize work environment
 
 clear all
 set more off
@@ -11,10 +11,10 @@ set varabbrev on, perm
 
 version 17
 
-*Define username
+* Define username
 global suser = c(username) 
 
-*Install packages used in the process
+* Install packages used in the process
 local commands = "vselect  missings unique confirmdir sepov pshare fastgini tabout fre tabstatmat pip spmap grstyle palettes wbopendata ineqdeco shp2dta mif2dta spshape2dta"  
 
 foreach c of local commands {
@@ -24,7 +24,6 @@ foreach c of local commands {
 		ssc install `c', replace 
 	}
 }
-
 
 
 * Estefania
@@ -51,7 +50,7 @@ global dRaw	    = "`folder'/01_data/01_raw_data"
 global dCl		= "`folder'/01_data/02_cleaned_data"
 global dOutput	= "`folder'/03_result" 
 
-*If needed, create directories, and sub-directories used in the process 
+* If needed, create directories, and sub-directories used in the process 
 foreach d in "${dOutput}" "${dOutput}/Data" /*"${gdTemp}"*/ {
 	confirmdir "`d'" 
 	if _rc!=0 mkdir "`d'" 
