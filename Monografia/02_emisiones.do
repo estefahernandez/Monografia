@@ -11,8 +11,9 @@
 
     use "$dCl/GobA_recaudo_fiscal_2023.dta", clear
 
-
-**# Emisiones modelo 2023
+************************************************************************
+*   Emisiones modelo 2023
+************************************************************************
 
     ** Minimo
     gen min_CO2eq_ton = .
@@ -53,7 +54,10 @@
         replace max_CO2eq_ton = 0.0001664 if modelo == 2023 & cilindraje == 1496
         replace max_CO2eq_ton = 0.0008065 if modelo == 2023 & cilindraje == 1968
 
-**# Emisiones modelo 2022
+************************************************************************
+*   Emisiones modelo 2022
+************************************************************************
+
     ** Minimo
         * valores proporcionales minimo
         replace min_CO2eq_ton = 0.0002842 + (0.0002842 / 1998) * (cilindraje - 1998) if modelo == 2022 & cilindraje >= 2000
@@ -82,7 +86,9 @@
         replace max_CO2eq_ton = 0.0003002 if modelo == 2022 & cilindraje == 1998
         replace max_CO2eq_ton = 0.0002941 if modelo == 2022 & cilindraje == 1598
 
-**# Emisiones modelo 2021
+************************************************************************
+*   Emisiones modelo 2021
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -106,7 +112,9 @@
         replace max_CO2eq_ton = 0.0004136 if modelo == 2021 & cilindraje == 1998
 
 
-**# Emisiones modelo 2020
+************************************************************************
+*   Emisiones modelo 2020
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -141,7 +149,9 @@
         replace max_CO2eq_ton = 0.0002755 if modelo == 2020 & cilindraje == 1598
         replace max_CO2eq_ton = 0.0004152 if modelo == 2020 & cilindraje == 1395
 
-**# Emisiones modelo 2017
+************************************************************************
+*   Emisiones modelo 2017
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -164,7 +174,9 @@
         *Coincidencia exactas
         replace max_CO2eq_ton = 0.00018 if modelo == 2017 & cilindraje == 1373
 
-**# Emisiones modelo 2016
+************************************************************************
+*   Emisiones modelo 2016
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -212,7 +224,9 @@
         replace max_CO2eq_ton = 0.000567 if modelo == 2016 & cilindraje == 2477
 
 
-**# Emisiones modelo 2015
+************************************************************************
+*   Emisiones modelo 2015
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -235,7 +249,9 @@
         *Coincidencia exactas
         replace max_CO2eq_ton = .0002893 if modelo == 2015 & cilindraje == 1396
 
-**# Emisiones modelo 2014
+************************************************************************
+*   Emisiones modelo 2014
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -264,7 +280,10 @@
         replace max_CO2eq_ton = 0.0003038 if modelo == 2014 & cilindraje == 1390
         replace max_CO2eq_ton = 0.0002367 if modelo == 2014 & cilindraje == 1248
 
-**# Emisiones modelo 2013
+************************************************************************
+*   Emisiones modelo 2013
+************************************************************************
+
     ** Minimo
         * valores proporcionales minimo
         replace min_CO2eq_ton = 0.0003456 + (0.0003456 / 1330) * (cilindraje - 1330) if modelo == 2013
@@ -286,7 +305,9 @@
         *Coincidencia exactas
         replace max_CO2eq_ton = 0.0003514 if modelo == 2013 & cilindraje == 1330
 
-**# Emisiones modelo 2012
+************************************************************************
+*   Emisiones modelo 2012
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
@@ -309,7 +330,9 @@
         *Coincidencia exactas
         replace max_CO2eq_ton = 0.0004624 if modelo == 2012 & cilindraje == 2500
 
-**# Emisiones modelo 2011
+************************************************************************
+*   Emisiones modelo 2011
+************************************************************************
 
     ** Minimo
         * valores proporcionales minimo
