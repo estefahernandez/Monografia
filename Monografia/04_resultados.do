@@ -87,42 +87,44 @@
             legend(label(1 "Impuesto Actual") label(2 "Impuesto Propuesto") ///
             rows(1) pos(12) size(small) col(1) ring(0))
 
-************************************************************************
-*  Impuesto actual vs Impuesto propuesta $1.59 UVT (67,435.08) y 23,394.60
-************************************************************************
-
-    * Combinación de impuesto uvt, 23.000 e impuetso actual 
-    merge 1:1 year using `co2_23000', nogen keep(matched) keepusing(impuesto_propuesta)
-
-    * Figura
-    twoway  (line impuesto_actual_uvt year, lcolor("128 192 102") lpattern(solid)) ///  // Línea para impuesto actual
-            (line impuesto_propuesta_uvt year, lcolor(orange red) lpattern(solid)) /// // Línea para impuesto propuesto
-            (line impuesto_propuesta year, lcolor("0 114 178") lpattern(solid)), /// // Línea para impuesto propuesto
-            title("") ///
-            xtitle("Años proyectados") ///
-            ytitle("Recaudo en millones de pesos") ///
-            xlabel(2024(1)2033,labsize(small) grid glp(dot) glc(black*0.2)) /// 
-            ylabel(, labsize(small) grid glp(dot) glc(black*0.2)) /// // Etiquetas de los años en el eje X
-            legend(order(1 "Impuesto Actual" 2 "Impuesto Propuesto UVT" 3 "Impuesto Propuesto 23.000") ///
-            col(1) row(1)  position(12) ring(0) nobox size(*0.8) region(lstyle(none)))
 
 ************************************************************************
-*                           Simulación 1
+*                     Simulación 1: precio 23,394.60
 ************************************************************************
 
     import excel "$dOutput/03_Simulacion/Modelocon25mil_excel.xlsx", sheet("Hoja1") firstrow clear
+    rename simlaucion simulacion1
     save "$dCl/simulación1.dta", replace
 
-    histogram simlaucion, frequency ///
-    addplot(kdensity ) ///
-    title("Histograma con Curva de Densidad") ///
+    histogram simulacion1, frequency ///
+    title("") ///
     xtitle("Valor de la Variable") ///
-    ytitle("Frecuencia")
+    ytitle("Frecuencia") ///
+    xlabel(,labsize(small) grid glp(dot) glc(black*0.2)) /// 
+    ylabel(, labsize(small) grid glp(dot) glc(black*0.2)) 
 
 
 ************************************************************************
-*                           Simulación 2
+*                   Simulación 2: $1.59 UVT (67,435.08)
 ************************************************************************
 
-save "$dCl/simulación2.dta", replace
+    import excel "$dOutput/03_Simulacion/ModeloconUVTmil_excel.xlsx", sheet("Datos simulación salidas") firstrow clear
+        drop in 1/4
+        rename (B C) (obs simulacion2) 
+        destring obs simulacion2, replace
+        format simulacion2 %12.0fc 
+    save "$dCl/simulacion2.dta", replace
+
+    histogram simulacion2, frequency ///
+    title("") ///
+    xtitle("Valor de la Variable") ///
+    ytitle("Frecuencia") ///
+    xlabel(,labsize(small) grid glp(dot) glc(black*0.2)) /// 
+    ylabel(, labsize(small) grid glp(dot) glc(black*0.2)) 
+
+
+************************************************************************
+*                        Simulación 3: 233.000
+************************************************************************
+
 
