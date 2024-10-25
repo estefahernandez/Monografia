@@ -9,7 +9,6 @@ set seed 23081980
 set sortseed 11041985
 set varabbrev on, perm
 
-version 17
 
 * Define username
 global suser = c(username) 
