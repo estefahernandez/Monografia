@@ -33,19 +33,18 @@
         replace impuesto_actual = impuesto_actual/1000000
         replace impuesto_propuesta = impuesto_propuesta/1000000
 
-    tempfile co2_23000
-    save `co2_23000'
-
     * Figura
-    twoway  (line impuesto_actual year, lcolor("128 192 102") lpattern(solid)) ///  // Línea para impuesto actual
-            (line impuesto_propuesta year, lcolor(orange red) lpattern(dash)), /// // Línea para impuesto propuesto
+    twoway  (line impuesto_actual year, lcolor("128 192 102") lpattern(solid) lwidth(0.65)) ///  // Línea para impuesto actual
+            (line impuesto_propuesta year, lcolor(orange red) lpattern(solid) lwidth(0.65)), /// // Línea para impuesto propuesto
             title("") ///
-            xtitle("Años proyectados") ///
+            xtitle("Años") ///
             ytitle("Recaudo en millones de pesos") ///
             xlabel(2024(1)2033,labsize(small) grid glp(dot) glc(black*0.2)) /// 
             ylabel(, labsize(small) grid glp(dot) glc(black*0.2)) /// // Etiquetas de los años en el eje X
             legend(label(1 "Impuesto Actual") label(2 "Impuesto Propuesto") ///
             rows(1) pos(12) size(small) col(1) ring(0))
+
+    graph export "$dOutput/01_figura/imp_propuesta_1.pdf",  replace    
 
 ************************************************************************
 *       Impuesto actual vs Impuesto propuesta $1.59 UVT (67,435.08)
@@ -73,12 +72,9 @@
         replace impuesto_actual_uvt = impuesto_actual_uvt/1000000
         replace impuesto_propuesta_uvt = impuesto_propuesta_uvt/1000000
 
-    tempfile co2_uvt
-    save `co2_uvt'
-
     * Figura
-    twoway  (line impuesto_actual_uvt year, lcolor("128 192 102") lpattern(solid)) ///  // Línea para impuesto actual
-            (line impuesto_propuesta_uvt year, lcolor(orange red) lpattern(dash)), /// // Línea para impuesto propuesto
+    twoway  (line impuesto_actual_uvt year, lcolor("128 192 102") lpattern(solid) lwidth(0.65)) ///  // Línea para impuesto actual
+            (line impuesto_propuesta_uvt year, lcolor("0 206 209") lpattern(solid) lwidth(0.65)), /// // Línea para impuesto propuesto
             title("") ///
             xtitle("Años proyectados") ///
             ytitle("Recaudo en millones de pesos") ///
@@ -87,6 +83,7 @@
             legend(label(1 "Impuesto Actual") label(2 "Impuesto Propuesto") ///
             rows(1) pos(12) size(small) col(1) ring(0))
 
+    graph export "$dOutput/01_figura/imp_propuesta_2.pdf",  replace    
 
 ************************************************************************
 *                     Simulación 1: precio 23,394.60
