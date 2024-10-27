@@ -307,8 +307,8 @@
     ** panel
     encode combustible_agrupada , gen(combustible_n)
 
-            // gen ano_matricula = yofd(fecha_matricula)
-            // format ano_matricula %ty
+    // gen ano_matricula = yofd(fecha_matricula)
+    // format ano_matricula %ty
 
     ** Modificar la fecha por meses 
     gen month_matricula = mofd(fecha_matricula)
@@ -571,17 +571,17 @@
         collapse (sum) porcentaje, by(periodo estadopago_n)
 
         ** Grafica porcentaje
-        graph bar porcentaje, over(estadopago_n,  label(labsize(small))) ///
-            over(periodo, label(angle(0) labsize(small))) ///
-            blabel(bar, position(inside) format(%9.1f "%%")) /// Mostrar el porcentaje dentro de las barras
-            stack asyvars ///
-            legend(order(1 "Descuento" 2 "Sin Descuento" 3 "Sanción") rows(1) position(bottom)) ///
-            ytitle("Porcentaje del Impuesto Recaudado (%)") ///
-            title("") ///
-            bar(1, fcolor("118 152 160") lwidth(none)) bar(2, fcolor(gray) lwidth(none)) bar(3, fcolor(dkorange) lwidth(none)) ///
-            plotregion(margin(0 0 0 12)) ///
-            ylabel(, labsize(small)) ///
-            blabel(bar, color(white) position(inside) format(%4.1f))
+        graph   bar porcentaje, over(estadopago_n,  label(labsize(small))) ///
+                over(periodo, label(angle(0) labsize(small))) ///
+                blabel(bar, position(inside) format(%9.1f "%%")) /// Mostrar el porcentaje dentro de las barras
+                stack asyvars ///
+                legend(order(1 "Descuento" 2 "Sin Descuento" 3 "Sanción") rows(1) position(bottom)) ///
+                ytitle("Porcentaje del Impuesto Recaudado (%)") ///
+                title("") ///
+                bar(1, fcolor("118 152 160") lwidth(none)) bar(2, fcolor(gray) lwidth(none)) bar(3, fcolor(dkorange) lwidth(none)) ///
+                plotregion(margin(0 0 0 12)) ///
+                ylabel(, labsize(small)) ///
+                blabel(bar, color(white) position(inside) format(%4.1f))
 
     graph export "${figuras}/Recaudototal_porcentaje.pdf",  replace
 

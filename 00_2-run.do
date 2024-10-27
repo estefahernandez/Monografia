@@ -21,6 +21,12 @@ if ("$dDo" == "") {
 ** Descripción datos
 	/* Figuras que describen el comportamiento de los datos */
 
-	include "$dDo/Monografia/03_descripcion_datos.do"
+	include "$dDo/Monografia/03_01_descripcion_datos.do"
+	include "$dDo/Monografia/03_02_recaudo10.do"
 
+** Resultados
+	/* Figuras de resultados */
+
+	include "$dDo/Monografia/04_resultados.do"
+	
 exit 
