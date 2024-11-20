@@ -136,11 +136,11 @@
             (line imp_p3 year, lcolor("128 192 102") lpattern(dash) lwidth(medthick)), /// // Línea para impuesto propuesto
             title("") ///
             xtitle("Años de Proyección",  size(11pt)) ///
-            ytitle("Recaudo en millones de pesos",  size(11pt)) ///
+            ytitle("Recaudo anual en millones de pesos",  size(11pt)) ///
             xlabel(2024(1)2033, labsize(small) grid glp(dot) glc(black*0.2)) /// 
             ylabel(0 10000 20000 30000 40000 50000, labsize(small) grid glp(dot) glc(black*0.2)) /// // Etiquetas de los años en el eje X
-            legend(order(1 "Impuesto Actual" 2 "Precio 1" 3 "Precio 2" 4 "Precio 3") ///
-            rows(1) pos(12) size(11pt) col(1))
+            legend(order(1 "Impuesto Actual" 2 "Tarifa 1: $23.394,60" 3 "Tarifa 2: $67.435,08" 4 "Tarifa 3: $219.057,37") ///
+            rows(1) pos(12) size(8pt) col(1))
 
     graph export "$dOutput/01_figura/linea_proyección_precios.pdf",  replace
 
@@ -154,19 +154,19 @@
     save "$dCl/simulaciones.dta", replace
 
     * Simulación 1
-    twoway  (histogram simulacion1, color("0 114 178%60")  width(5) density), ///
-            title("") ///
-            xtitle("Simulación 1", size(11pt) color(black)) ///
-            ytitle("Densidad", size(11pt) color(black) margin(small)) ///
-            xlabel(26600 26700 26800, labsize(small) grid glp(dot) glc(black*0.2)) ///
-            ylabel(, labsize(small) format(%9.3f) grid glp(dot) glc(black*0.2)) ///
-            legend(order(1 "Distribución 1") rows(1) pos(12) size(small) col(1)) ///
-            name(graf1, replace)
+twoway (histogram simulacion1, color("0 114 178%60") width(5) density), ///
+        title("") ///
+        xtitle("Simulación 1", size(11pt) color(black)) ///
+        ytitle("Densidad", size(11pt) color(black) margin(small)) ///
+        xlabel(26600 26700 26800, labsize(small) grid glp(dot) glc(black*0.2)) ///
+        ylabel(, labsize(small) format(%9.3f) grid glp(dot) glc(black*0.2)) ///
+        legend(order(1 "Distribución 1") rows(1) pos(12) size(small) col(1)) ///
+        name(graf1, replace)
 
     graph export "$dOutput/01_figura/simulacion1.pdf",  replace
 
     * Simulación 2
-    twoway  (histogram simulacion2, color("128 192 102%60") width(5) density), ///
+    twoway  (histogram simulacion2, color("128 192 102%60") width(10) density), ///
             title("") ///
             xtitle("Simulación 2", size(11pt) color(black)) ///
             ytitle("Densidad", size(11pt) color(black) margin(small)) ///
@@ -178,7 +178,7 @@
     graph export "$dOutput/01_figura/simulacion2.pdf",  replace
 
     * Simulación 3
-    twoway  (histogram simulacion3, color("255 121 95%60") width(5) density), ///
+    twoway  (histogram simulacion3, color("255 121 95%60") width(20) density), ///
             title("") ///
             xtitle("Simulación 3", size(11pt) color(black)) ///
             ytitle("Densidad", size(11pt) color(black) margin(small)) ///

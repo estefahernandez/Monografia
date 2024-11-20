@@ -6,7 +6,7 @@
 *       * Supuestos:    - Vehiculos: Automovil, Camioneta, Campero
 *                       - Vehiculos particulares
 *                       - Modelo desde 2011 hasta 2023, excepto: 2018,2019
-                        - 
+*                        
 *       * Limpieza
 *
 *-------------------------------------------------------------------

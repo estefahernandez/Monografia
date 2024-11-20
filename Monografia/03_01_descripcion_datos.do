@@ -112,7 +112,7 @@
 ************************************************************************
 *   Figura 3: Recaudo en los ultimos 10 años
 ************************************************************************
-/*
+
     ** Grafica en porcentaje
 
         use "$dCl/imp_veh_Gob10.dta", clear
@@ -137,8 +137,7 @@
             * Preparar datos para la gráfica
             collapse (sum) porcentaje, by(periodo estadopago_n)
 
-        ** Grafica porcentaje
-
+    ** Grafica porcentaje
     graph   bar porcentaje, over(estadopago_n, label(labsize(small))) ///
             over(periodo, label(angle(0) labsize(small))) ///
             stack asyvars ///
@@ -146,16 +145,15 @@
             legend(order(1 "Descuento" 2 "Sin Descuento" 3 "Sanción") rows(1) position(bottom)) ///
             ytitle("Porcentaje del Impuesto Recaudado (%)", size(11pt)) ///
             title("") ///
-            bar(1, fcolor("0 114 178%80") lwidth(none)) /// Color naranja
-            bar(2, fcolor("128 192 102%80") lwidth(none)) /// Color verde
-            bar(3, fcolor("255 121 95%80") lwidth(none)) /// Color gris
+            bar(1, fcolor(gray%40) lwidth(none)) /// Color naranja
+            bar(2, fcolor("128 192 102") lwidth(none)) /// Color verde
+            bar(3, fcolor("255 121 95") lwidth(none)) /// Color gris
             plotregion(margin(0 0 0 12)) ///
             ylabel(, labsize(small) grid glp(dot) glc(black*0.2))
 
 
-//graph export "$dOutput/01_figura/recaudo_10anos.pdf", as(pdf) name("Graph") replace
-//graph export "$dOutput/01_figura/recaudo_10anos.pdf",  replace
-*/
+// graph export "$dOutput/01_figura/recaudo_10anos.pdf",  replace
+
 ************************************************************************
 *   Tabla 1: Recaudo en los ultimos 10 años
 ************************************************************************
