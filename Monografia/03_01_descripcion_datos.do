@@ -188,4 +188,10 @@
         
         export excel using"$dOutput/02_tabla/recaudo10.xlsx", firstrow(variables) replace
 
+************************************************************************
+*   Porcentaje de pago del parque automotor
+************************************************************************
 
+    use "$dCl/GobA_imp_veh_2023.dta", clear
+
+    tabulate porcentaje
