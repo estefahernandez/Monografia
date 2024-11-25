@@ -19,7 +19,7 @@
 
         ** Agrupar la variable Clase
         gen clase_agrupada = ""
-        replace clase_agrupada = "Automovil"    if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
+        replace clase_agrupada = "Automóvil"    if inlist(clase, "AUTOMOVIL", "AUTOMOVIL ELECTRICO", "AUTOMOVIL HIBRIDO")
         replace clase_agrupada = "Camioneta"    if inlist(clase, "CAMIONETA(C)", "CAMIONETA(C) ELECTRICO", "CAMIONETA(C) HIBRIDO", ///
                                                                 "CAMIONETA(P)", "CAMIONETA(P) ELECTRICO", "CAMIONETA(P) HIBRIDO")
         replace clase_agrupada = "Motocicleta"  if inlist(clase, "CUATRIMOTO", "MOTOCICLETA", "MOTOTRICICLO", "CUADRICICLO", "MOTOCARRO")
@@ -142,12 +142,12 @@
             over(periodo, label(angle(0) labsize(small))) ///
             stack asyvars ///
             blabel(bar, position(center) format(%9.1f)) /// Ajuste para mostrar porcentaje dentro de las barras
-            legend(order(1 "Descuento" 2 "Sin Descuento" 3 "Sanción") rows(1) position(bottom)) ///
+            legend(order(1 "Descuento" 2 "Sanción" 3 "Sin Descuento") rows(1) position(bottom)) ///
             ytitle("Porcentaje del Impuesto Recaudado (%)", size(11pt)) ///
             title("") ///
-            bar(1, fcolor(gray%40) lwidth(none)) /// Color naranja
-            bar(2, fcolor("128 192 102") lwidth(none)) /// Color verde
-            bar(3, fcolor("255 121 95") lwidth(none)) /// Color gris
+            bar(1, fcolor("128 192 102") lwidth(none)) /// Color naranja
+            bar(2, fcolor("255 121 95") lwidth(none)) /// Color verde
+            bar(3, fcolor(gray%40) lwidth(none)) /// Color gris
             plotregion(margin(0 0 0 12)) ///
             ylabel(, labsize(small) grid glp(dot) glc(black*0.2))
 
@@ -186,12 +186,8 @@
 
             reshape wide impuesto, i(periodo porcentaje total_imp) j(estadopago_n)
         
-        export excel using"$dOutput/02_tabla/recaudo10.xlsx", firstrow(variables) replace
+        // export excel using"$dOutput/02_tabla/recaudo10.xlsx", firstrow(variables) replace
 
-************************************************************************
-*   Porcentaje de pago del parque automotor
-************************************************************************
 
-    use "$dCl/GobA_imp_veh_2023.dta", clear
 
-    tabulate porcentaje
+
