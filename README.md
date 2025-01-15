@@ -30,12 +30,6 @@ Puedes generar estas figuras ejecutando los scripts disponibles.
    2. Simulación Monte Carlo: `monte_carlo_simulation.do`
    3. Generación de figuras: `generate_figures.do`
 
-```stata
-// Ejemplo de ejecución
-run clean_data.do
-run monte_carlo_simulation.do
-run generate_figures.do```
-
 **Metodolgía**
 Los scripts implementan los siguientes pasos clave:
 1. **Preparación de Datos**: Limpieza y asignación de valores de emisiones por vehículo considerando características como modelo y cilindraje.
