@@ -34,7 +34,7 @@ Puedes generar estas figuras ejecutando los scripts disponibles.
 // Ejemplo de ejecución
 run clean_data.do
 run monte_carlo_simulation.do
-run generate_figures.do
+run generate_figures.do'''
 
 **Metodolgía**
 Los scripts implementan los siguientes pasos clave:
