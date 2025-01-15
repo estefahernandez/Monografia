@@ -30,15 +30,17 @@ Puedes generar estas figuras ejecutando los scripts disponibles.
    2. Simulación Monte Carlo: `monte_carlo_simulation.do`
    3. Generación de figuras: `generate_figures.do`
 
-**Metodolgía**
+# Metodolgía
+
 Los scripts implementan los siguientes pasos clave:
+
 1. **Preparación de Datos**: Limpieza y asignación de valores de emisiones por vehículo considerando características como modelo y cilindraje.
 
 2. **Simulación Monte Carlo**: Evaluación de las emisiones anuales de CO2 basadas en funciones de distribución PERT para modelar escenarios realistas de kilómetros recorridos y emisiones por vehículo.
 
 3. **Proyecciones**: Análisis de los ingresos fiscales proyectados bajo diferentes tarifas de impuesto vehicular a lo largo de 10 años, considerando la inflación y la depreciación de los vehículos.
 
-**Resultados**
+# Resultados
 
 El análisis demostró que:
 
@@ -46,7 +48,7 @@ El análisis demostró que:
 
 - Una tarifa basada en emisiones de $219.057,37 por tonelada de CO2 podría generar ingresos significativamente mayores y fomentar el uso de tecnologías limpias.
 
-**Contribuciones**
+## Contribuciones
 
 Este proyecto está abierto a sugerencias. Realiza un fork del repositorio y envía un pull request con tus propuestas de mejora.
 
