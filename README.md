@@ -46,7 +46,7 @@ El análisis demostró que:
 
 - La tarifa actual basada en el valor del vehículo es insuficiente para maximizar el recaudo fiscal.
 
-- Una tarifa basada en emisiones de $219.057,37 COP por tonelada de CO2 podría generar ingresos significativamente mayores y fomentar el uso de tecnologías limpias.
+- Una tarifa basada en emisiones de COP 219.057,37  por tonelada de CO2 podría generar ingresos significativamente mayores y fomentar el uso de tecnologías limpias.
 
 ### Contribuciones
 
