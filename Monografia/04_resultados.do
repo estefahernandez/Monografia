@@ -140,7 +140,7 @@
             xlabel(2024(1)2033, labsize(small) grid glp(dot) glc(black*0.2)) /// 
             ylabel(0 10000 20000 30000 40000 50000, labsize(small) grid glp(dot) glc(black*0.2)) /// // Etiquetas de los años en el eje X
             legend(order(1 "Impuesto Actual" 2 "Tarifa 1: $23.394,60" 3 "Tarifa 2: $67.435,08" 4 "Tarifa 3: $219.057,37") ///
-            rows(1) pos(12) size(8pt) col(1))
+            rows(1) pos(12) size(10pt) col(1))
 
     graph export "$dOutput/01_figura/linea_proyección_precios.pdf",  replace
 
